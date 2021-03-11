@@ -1,0 +1,36 @@
+{
+	"name": "DS_Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageLS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DWFolder": {
+				"type": "string"
+			},
+			"DWFile": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().DWFile",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().DWFolder",
+					"type": "Expression"
+				},
+				"fileSystem": "innovapost"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
