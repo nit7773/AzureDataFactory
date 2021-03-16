@@ -45,6 +45,7 @@
 									}
 								},
 								"enableStaging": false,
+								"validateDataConsistency": true,
 								"logSettings": {
 									"enableCopyActivityLog": true,
 									"copyActivityLogSettings": {
