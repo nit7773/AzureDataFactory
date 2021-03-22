@@ -1,5 +1,5 @@
 {
-	"name": "RestResource1",
+	"name": "DS_RestAPI",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_RestAPIConnection",
