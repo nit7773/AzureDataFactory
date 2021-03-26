@@ -1,12 +1,19 @@
 {
 	"name": "LS_RestServiceInn",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
 			"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/InquiryService.svc",
 			"enableServerCertificateValidation": true,
-			"authenticationType": "Anonymous"
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"X-API-Key": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
 		}
 	}
 }
