@@ -2,7 +2,7 @@
 	"name": "DS_RestAPI",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_RestAPIConnection",
+			"referenceName": "LS_RestServiceInn",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
