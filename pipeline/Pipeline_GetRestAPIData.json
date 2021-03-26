@@ -21,7 +21,7 @@
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "GET",
 						"additionalHeaders": {
-							"token": "5163a012-b13c-4560-b008-3d166e1187e"
+							"": ""
 						}
 					},
 					"sink": {
