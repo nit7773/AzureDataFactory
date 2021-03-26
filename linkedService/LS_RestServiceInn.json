@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/InquiryService.svc/rest/inquiry",
+			"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/InquiryService.svc/rest/inquiry?token=5163a012-b13c-4560-b008-3d166e1187e9",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
