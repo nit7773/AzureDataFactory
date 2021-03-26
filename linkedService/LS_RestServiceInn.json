@@ -1,0 +1,12 @@
+{
+	"name": "LS_RestServiceInn",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/InquiryService.svc",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
