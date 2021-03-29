@@ -47,7 +47,7 @@
 									"path": "$['id']"
 								},
 								"sink": {
-									"name": "id"
+									"ordinal": 1
 								}
 							},
 							{
@@ -55,7 +55,7 @@
 									"path": "$['type']"
 								},
 								"sink": {
-									"name": "type"
+									"ordinal": 2
 								}
 							},
 							{
@@ -63,7 +63,7 @@
 									"path": "$['name']"
 								},
 								"sink": {
-									"name": "name"
+									"ordinal": 3
 								}
 							},
 							{
@@ -71,7 +71,7 @@
 									"path": "$['ppu']"
 								},
 								"sink": {
-									"name": "ppu"
+									"ordinal": 4
 								}
 							},
 							{
@@ -79,7 +79,7 @@
 									"path": "$['batters']['batter'][0]['id']"
 								},
 								"sink": {
-									"name": "id"
+									"ordinal": 5
 								}
 							},
 							{
@@ -87,7 +87,7 @@
 									"path": "$['batters']['batter'][0]['type']"
 								},
 								"sink": {
-									"name": "type"
+									"ordinal": 6
 								}
 							},
 							{
@@ -95,7 +95,7 @@
 									"path": "$['topping'][0]['id']"
 								},
 								"sink": {
-									"name": "id"
+									"ordinal": 7
 								}
 							},
 							{
@@ -103,7 +103,7 @@
 									"path": "$['topping'][0]['type']"
 								},
 								"sink": {
-									"name": "type"
+									"ordinal": 8
 								}
 							}
 						],
@@ -119,7 +119,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_ADLS",
+						"referenceName": "DS_Target",
 						"type": "DatasetReference"
 					}
 				]
