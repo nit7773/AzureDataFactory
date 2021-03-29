@@ -2,15 +2,15 @@
 	"name": "DS_Target",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorageLS",
+			"referenceName": "linkedService1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"fileName": "sampleoutput",
+				"type": "AzureBlobStorageLocation",
+				"fileName": "sampleoutput.json",
 				"folderPath": "source"
 			},
 			"columnDelimiter": ",",
