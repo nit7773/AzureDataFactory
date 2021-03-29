@@ -24,8 +24,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -36,6 +35,33 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['Fid']"
+								},
+								"sink": {
+									"name": "Fid"
+								}
+							},
+							{
+								"source": {
+									"path": "['InfoFromEdi']"
+								},
+								"sink": {
+									"name": "items"
+								}
+							},
+							{
+								"source": {
+									"path": "['OperationalMailitems']"
+								},
+								"sink": {
+									"name": "items"
+								}
+							}
+						],
+						"collectionReference": "$['Results']",
 						"mapComplexValuesToString": false
 					}
 				},
