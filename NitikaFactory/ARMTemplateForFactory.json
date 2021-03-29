@@ -33,7 +33,7 @@
 		},
 		"LS_RestServiceInn_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc"
+			"defaultValue": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA"
 		}
 	},
 	"variables": {
@@ -246,8 +246,7 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"type": "AzureBlobFSWriteSettings"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
@@ -258,6 +257,33 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['Fid']"
+										},
+										"sink": {
+											"name": "Fid"
+										}
+									},
+									{
+										"source": {
+											"path": "[['InfoFromEdi']"
+										},
+										"sink": {
+											"name": "items"
+										}
+									},
+									{
+										"source": {
+											"path": "[['OperationalMailitems']"
+										},
+										"sink": {
+											"name": "items"
+										}
+									}
+								],
+								"collectionReference": "$['Results']",
 								"mapComplexValuesToString": false
 							}
 						},
