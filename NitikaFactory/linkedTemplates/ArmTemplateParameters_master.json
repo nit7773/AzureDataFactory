@@ -20,6 +20,12 @@
 		"LS_Logging_properties_typeProperties_url": {
 			"value": "https://nitikainnovapost.dfs.core.windows.net"
 		},
+		"LS_RestAPIConnection_properties_typeProperties_url": {
+			"value": "http://dummy.restapiexample.com/api/v1/employees"
+		},
+		"LS_RestServiceInn_properties_typeProperties_url": {
+			"value": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc"
+		},
 		"containerUri": {
 			"value": ""
 		},
