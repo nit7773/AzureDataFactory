@@ -258,33 +258,6 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['Results'][0]['Fid']"
-										},
-										"sink": {
-											"name": "Fid"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Results'][0]['InfoFromEdi'][0]"
-										},
-										"sink": {
-											"name": "items"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Results'][0]['OperationalMailitems'][0]"
-										},
-										"sink": {
-											"name": "items"
-										}
-									}
-								],
-								"collectionReference": "",
 								"mapComplexValuesToString": true
 							}
 						},
