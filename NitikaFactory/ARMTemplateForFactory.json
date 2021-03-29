@@ -261,7 +261,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$['Results'][0]['Fid']"
+											"path": "[['Fid']"
 										},
 										"sink": {
 											"name": "Fid"
@@ -269,7 +269,7 @@
 									},
 									{
 										"source": {
-											"path": "$['Results'][0]['InfoFromEdi'][0]"
+											"path": "[['InfoFromEdi']"
 										},
 										"sink": {
 											"name": "items"
@@ -277,14 +277,14 @@
 									},
 									{
 										"source": {
-											"path": "$['Results'][0]['OperationalMailitems'][0]"
+											"path": "[['OperationalMailitems']"
 										},
 										"sink": {
 											"name": "items"
 										}
 									}
 								],
-								"collectionReference": "",
+								"collectionReference": "$['Results']",
 								"mapComplexValuesToString": true
 							}
 						},
