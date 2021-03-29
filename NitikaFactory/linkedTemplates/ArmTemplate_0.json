@@ -476,7 +476,7 @@
 								"type": "DelimitedTextSink",
 								"storeSettings": {
 									"type": "AzureBlobFSWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"copyBehavior": "PreserveHierarchy"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
@@ -487,6 +487,17 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['Fid']"
+										},
+										"sink": {
+											"name": "Fid"
+										}
+									}
+								],
+								"collectionReference": "$['Results']",
 								"mapComplexValuesToString": true
 							}
 						},
