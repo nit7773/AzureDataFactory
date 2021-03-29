@@ -11,7 +11,8 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "sampleoutput.json",
-				"folderPath": "source"
+				"folderPath": "source",
+				"container": "innovapost"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
