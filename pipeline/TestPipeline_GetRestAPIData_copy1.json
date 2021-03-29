@@ -76,7 +76,7 @@
 							},
 							{
 								"source": {
-									"path": "['id']"
+									"path": "$['batters']['batter'][0]['id']"
 								},
 								"sink": {
 									"ordinal": 5
@@ -84,7 +84,7 @@
 							},
 							{
 								"source": {
-									"path": "['type']"
+									"path": "$['batters']['batter'][0]['type']"
 								},
 								"sink": {
 									"ordinal": 6
@@ -92,7 +92,7 @@
 							},
 							{
 								"source": {
-									"path": "$['topping'][0]['id']"
+									"path": "['id']"
 								},
 								"sink": {
 									"ordinal": 7
@@ -100,14 +100,14 @@
 							},
 							{
 								"source": {
-									"path": "$['topping'][0]['type']"
+									"path": "['type']"
 								},
 								"sink": {
 									"ordinal": 8
 								}
 							}
 						],
-						"collectionReference": "$['batters']['batter']",
+						"collectionReference": "$['topping']",
 						"mapComplexValuesToString": true
 					}
 				},
