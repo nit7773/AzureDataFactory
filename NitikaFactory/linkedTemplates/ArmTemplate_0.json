@@ -126,7 +126,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "Sample",
+						"fileName": "FileRestAPI",
 						"folderPath": "restapidata"
 					},
 					"columnDelimiter": ",",
@@ -323,6 +323,31 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_Target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/EP_IterateAndCopySqlTables')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -502,7 +527,7 @@
 											"path": "$['id']"
 										},
 										"sink": {
-											"name": "id"
+											"ordinal": 1
 										}
 									},
 									{
@@ -510,7 +535,7 @@
 											"path": "$['type']"
 										},
 										"sink": {
-											"name": "type"
+											"ordinal": 2
 										}
 									},
 									{
@@ -518,7 +543,7 @@
 											"path": "$['name']"
 										},
 										"sink": {
-											"name": "name"
+											"ordinal": 3
 										}
 									},
 									{
@@ -526,7 +551,7 @@
 											"path": "$['ppu']"
 										},
 										"sink": {
-											"name": "ppu"
+											"ordinal": 4
 										}
 									},
 									{
@@ -534,7 +559,7 @@
 											"path": "$['batters']['batter'][0]['id']"
 										},
 										"sink": {
-											"name": "id"
+											"ordinal": 5
 										}
 									},
 									{
@@ -542,7 +567,7 @@
 											"path": "$['batters']['batter'][0]['type']"
 										},
 										"sink": {
-											"name": "type"
+											"ordinal": 6
 										}
 									},
 									{
@@ -550,7 +575,7 @@
 											"path": "$['topping'][0]['id']"
 										},
 										"sink": {
-											"name": "id"
+											"ordinal": 7
 										}
 									},
 									{
@@ -558,7 +583,7 @@
 											"path": "$['topping'][0]['type']"
 										},
 										"sink": {
-											"name": "type"
+											"ordinal": 8
 										}
 									}
 								],
@@ -575,7 +600,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_ADLS",
+								"referenceName": "DS_Target",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -586,7 +611,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Target')]"
 			]
 		},
 		{
