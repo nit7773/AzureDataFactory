@@ -25,7 +25,7 @@
 						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
+							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -43,22 +43,6 @@
 								},
 								"sink": {
 									"name": "Fid"
-								}
-							},
-							{
-								"source": {
-									"path": "['InfoFromEdi']"
-								},
-								"sink": {
-									"name": "items"
-								}
-							},
-							{
-								"source": {
-									"path": "['OperationalMailitems']"
-								},
-								"sink": {
-									"name": "items"
 								}
 							}
 						],
