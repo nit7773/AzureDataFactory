@@ -337,7 +337,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "sampleoutput",
-						"folderPath": "sample"
+						"folderPath": "source"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
