@@ -749,7 +749,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "sampleoutput"
+						"fileName": "sampleoutput",
+						"folderPath": "sample"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
