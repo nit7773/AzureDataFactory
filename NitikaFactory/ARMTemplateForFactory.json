@@ -604,7 +604,7 @@
 									},
 									{
 										"source": {
-											"path": "$['batters']['batter'][0]['id']"
+											"path": "[['id']"
 										},
 										"sink": {
 											"ordinal": 5
@@ -612,7 +612,7 @@
 									},
 									{
 										"source": {
-											"path": "$['batters']['batter'][0]['type']"
+											"path": "[['type']"
 										},
 										"sink": {
 											"ordinal": 6
@@ -635,7 +635,7 @@
 										}
 									}
 								],
-								"collectionReference": "",
+								"collectionReference": "$['batters']['batter']",
 								"mapComplexValuesToString": true
 							}
 						},
