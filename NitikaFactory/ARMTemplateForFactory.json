@@ -266,9 +266,25 @@
 										"sink": {
 											"name": "Fid"
 										}
+									},
+									{
+										"source": {
+											"path": "$['Results'][0]['InfoFromEdi'][0]"
+										},
+										"sink": {
+											"name": "items"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Results'][0]['OperationalMailitems'][0]"
+										},
+										"sink": {
+											"name": "items"
+										}
 									}
 								],
-								"collectionReference": "$['Results'][0]['InfoFromEdi']",
+								"collectionReference": "",
 								"mapComplexValuesToString": true
 							}
 						},
