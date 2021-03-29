@@ -677,7 +677,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "Pie.json",
-						"folderPath": "source"
+						"fileSystem": "source"
 					}
 				},
 				"schema": {
@@ -748,7 +748,8 @@
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation"
+						"type": "AzureBlobFSLocation",
+						"fileName": "sampleoutput"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
