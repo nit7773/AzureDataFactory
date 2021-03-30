@@ -508,8 +508,7 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
@@ -520,73 +519,6 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['id']"
-										},
-										"sink": {
-											"ordinal": 1
-										}
-									},
-									{
-										"source": {
-											"path": "$['type']"
-										},
-										"sink": {
-											"ordinal": 2
-										}
-									},
-									{
-										"source": {
-											"path": "$['name']"
-										},
-										"sink": {
-											"ordinal": 3
-										}
-									},
-									{
-										"source": {
-											"path": "$['ppu']"
-										},
-										"sink": {
-											"ordinal": 4
-										}
-									},
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"ordinal": 5
-										}
-									},
-									{
-										"source": {
-											"path": "[['type']"
-										},
-										"sink": {
-											"ordinal": 6
-										}
-									},
-									{
-										"source": {
-											"path": "$['topping'][0]['id']"
-										},
-										"sink": {
-											"ordinal": 7
-										}
-									},
-									{
-										"source": {
-											"path": "$['topping'][0]['type']"
-										},
-										"sink": {
-											"ordinal": 8
-										}
-									}
-								],
-								"collectionReference": "$['batters']['batter']",
 								"mapComplexValuesToString": true
 							}
 						},
