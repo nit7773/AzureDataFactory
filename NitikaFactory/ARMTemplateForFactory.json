@@ -388,7 +388,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TestPipeline_GetRestAPIData_copy1')]",
+			"name": "[concat(parameters('factoryName'), '/TestPipeline_UsingCopyActivity')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
