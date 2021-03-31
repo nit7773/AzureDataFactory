@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sampleoutput.json",
+				"fileName": "sampleoutput",
 				"container": "sample"
 			},
 			"columnDelimiter": ",",
