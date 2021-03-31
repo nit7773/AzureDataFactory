@@ -20,6 +20,9 @@
 		"linkedService1_connectionString": {
 			"value": ""
 		},
+		"linkedService2_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"value": "https://nitikainnovapost.dfs.core.windows.net"
 		},
