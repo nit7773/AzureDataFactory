@@ -682,31 +682,31 @@
 									},
 									{
 										"source": {
-											"path": "$['data'][0]['id']"
+											"path": "[['id']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "$['data'][0]['employee_name']"
+											"path": "[['employee_name']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "$['data'][0]['employee_salary']"
+											"path": "[['employee_salary']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "$['data'][0]['employee_age']"
+											"path": "[['employee_age']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "$['data'][0]['profile_image']"
+											"path": "[['profile_image']"
 										},
 										"sink": {}
 									},
@@ -720,7 +720,7 @@
 										}
 									}
 								],
-								"collectionReference": "",
+								"collectionReference": "$['data']",
 								"mapComplexValuesToString": true
 							}
 						},
