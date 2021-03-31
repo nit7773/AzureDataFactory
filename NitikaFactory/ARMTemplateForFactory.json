@@ -749,10 +749,6 @@
 						"userProperties": [],
 						"typeProperties": {
 							"url": "https://ghibliapi.herokuapp.com/locations",
-							"connectVia": {
-								"referenceName": "IRSelfHosted",
-								"type": "IntegrationRuntimeReference"
-							},
 							"method": "GET",
 							"headers": {}
 						}
@@ -760,9 +756,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IRSelfHosted')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
