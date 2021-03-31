@@ -555,8 +555,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "FileRestAPI",
-						"fileSystem": "restapidata"
+						"fileName": "FileRestAPI"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
