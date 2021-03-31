@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://ghibliapi.herokuapp.com/locations",
+					"url": "https://ghibliapi.herokuapp.com/species",
 					"method": "GET"
 				}
 			},
