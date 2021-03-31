@@ -342,7 +342,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "http://dummy.restapiexample.com/api/v1/employees",
+							"url": "https://ghibliapi.herokuapp.com/locations",
 							"method": "GET",
 							"headers": {}
 						}
