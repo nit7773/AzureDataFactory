@@ -11,6 +11,9 @@
 		"AzureSqlDatabaseLS_connectionString": {
 			"value": ""
 		},
+		"LS_AzureSqlDatabase_connectionString": {
+			"value": ""
+		},
 		"LS_Logging_accountKey": {
 			"value": ""
 		},
