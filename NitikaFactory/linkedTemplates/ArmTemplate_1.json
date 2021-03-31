@@ -258,6 +258,22 @@
 										"sink": {
 											"name": "Fid"
 										}
+									},
+									{
+										"source": {
+											"path": "[['InfoFromEdi']"
+										},
+										"sink": {
+											"name": "items"
+										}
+									},
+									{
+										"source": {
+											"path": "[['OperationalMailitems']"
+										},
+										"sink": {
+											"name": "items"
+										}
 									}
 								],
 								"collectionReference": "$['Results']",
