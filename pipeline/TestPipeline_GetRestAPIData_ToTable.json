@@ -16,10 +16,6 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": "https://ghibliapi.herokuapp.com/locations",
-					"connectVia": {
-						"referenceName": "IRSelfHosted",
-						"type": "IntegrationRuntimeReference"
-					},
 					"method": "GET"
 				}
 			}
