@@ -304,7 +304,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TestPipeline_GetRestAPIData_ToTable')]",
+			"name": "[concat(parameters('factoryName'), '/TestPipeline_Web_ToTable')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -322,7 +322,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://ghibliapi.herokuapp.com/locations",
+							"url": "http://dummy.restapiexample.com/api/v1/employees",
 							"method": "GET",
 							"headers": {}
 						}
