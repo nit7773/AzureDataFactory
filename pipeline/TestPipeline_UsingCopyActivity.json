@@ -1,5 +1,5 @@
 {
-	"name": "TestPipeline_GetRestAPIData_copy1",
+	"name": "TestPipeline_UsingCopyActivity",
 	"properties": {
 		"activities": [
 			{
