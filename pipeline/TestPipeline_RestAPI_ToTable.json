@@ -22,22 +22,12 @@
 						"requestMethod": "GET"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "['Fid']"
-								},
-								"sink": {
-									"name": "Fid"
-								}
-							}
-						],
-						"collectionReference": "$['Results']",
 						"mapComplexValuesToString": true
 					}
 				},
