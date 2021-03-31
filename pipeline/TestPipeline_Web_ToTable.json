@@ -1,5 +1,5 @@
 {
-	"name": "TestPipeline_GetRestAPIData_ToTable",
+	"name": "TestPipeline_Web_ToTable",
 	"properties": {
 		"activities": [
 			{
@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://ghibliapi.herokuapp.com/locations",
+					"url": "http://dummy.restapiexample.com/api/v1/employees",
 					"method": "GET"
 				}
 			}
