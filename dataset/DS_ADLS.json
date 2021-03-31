@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "FileRestAPI",
-				"folderPath": "restapidata"
+				"fileSystem": "restapidata"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
