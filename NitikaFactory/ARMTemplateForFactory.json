@@ -342,7 +342,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://ghibliapi.herokuapp.com/species",
+							"url": "https://reqres.in/api/products",
 							"method": "GET",
 							"headers": {}
 						}
