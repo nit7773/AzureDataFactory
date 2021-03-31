@@ -447,31 +447,31 @@
 									},
 									{
 										"source": {
-											"path": "[['id']"
+											"path": "$['data'][0]['id']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "[['employee_name']"
+											"path": "$['data'][0]['employee_name']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "[['employee_salary']"
+											"path": "$['data'][0]['employee_salary']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "[['employee_age']"
+											"path": "$['data'][0]['employee_age']"
 										},
 										"sink": {}
 									},
 									{
 										"source": {
-											"path": "[['profile_image']"
+											"path": "$['data'][0]['profile_image']"
 										},
 										"sink": {}
 									},
@@ -485,7 +485,7 @@
 										}
 									}
 								],
-								"collectionReference": "$['data']",
+								"collectionReference": "",
 								"mapComplexValuesToString": true
 							}
 						},
