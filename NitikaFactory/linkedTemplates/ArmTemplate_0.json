@@ -147,35 +147,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TestPipeline_GetRestAPIData_ToTable')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA",
-							"method": "GET",
-							"headers": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -407,6 +378,41 @@
 					"referenceName": "IRSelfHosted",
 					"type": "IntegrationRuntimeReference"
 				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IRSelfHosted')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TestPipeline_GetRestAPIData_ToTable')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA",
+							"connectVia": {
+								"referenceName": "IRSelfHosted",
+								"type": "IntegrationRuntimeReference"
+							},
+							"method": "GET",
+							"headers": {}
+						}
+					}
+				],
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/IRSelfHosted')]"
