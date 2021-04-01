@@ -63,11 +63,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"JsonString": {
-				"type": "string"
-			}
-		},
 		"variables": {
 			"JsonString": {
 				"type": "String"
