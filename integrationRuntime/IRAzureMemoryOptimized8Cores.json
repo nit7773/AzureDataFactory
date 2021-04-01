@@ -1,0 +1,16 @@
+{
+	"name": "IRAzureMemoryOptimized8Cores",
+	"properties": {
+		"type": "Managed",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "Canada Central",
+				"dataFlowProperties": {
+					"computeType": "General",
+					"coreCount": 8,
+					"timeToLive": 10
+				}
+			}
+		}
+	}
+}
