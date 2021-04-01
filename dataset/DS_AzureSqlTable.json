@@ -2,7 +2,7 @@
 	"name": "DS_AzureSqlTable",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabaseLS",
+			"referenceName": "LS_AdventureWorksLT",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
