@@ -68,7 +68,8 @@
 				],
 				"userProperties": [
 					{
-						"name": "JsonString"
+						"name": "JsonString",
+						"value": "string"
 					}
 				]
 			},
