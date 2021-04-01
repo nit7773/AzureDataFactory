@@ -66,12 +66,14 @@
 						]
 					}
 				],
-				"userProperties": [
-					{
-						"name": "JsonString",
-						"value": "string"
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "JsonString",
+					"value": {
+						"value": "@string(activity('Web1').output)",
+						"type": "Expression"
 					}
-				]
+				}
 			},
 			{
 				"name": "Copy data1",
@@ -97,6 +99,16 @@
 				}
 			}
 		],
+		"parameters": {
+			"JsonString": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"JsonString": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-03-31T19:55:27Z"
 	},
