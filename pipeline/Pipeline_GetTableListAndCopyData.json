@@ -130,12 +130,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DS_Parquet",
-									"type": "DatasetReference",
-									"parameters": {
-										"DWFolder": "@item().TABLE_NAME",
-										"DWFile": "@item().TABLE_SCHEMA"
-									}
+									"referenceName": "DS_IMS",
+									"type": "DatasetReference"
 								}
 							]
 						}
