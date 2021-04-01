@@ -92,7 +92,7 @@
 							},
 							{
 								"source": {
-									"path": "$['topping'][0]['id']"
+									"path": "['id']"
 								},
 								"sink": {
 									"ordinal": 7
@@ -100,13 +100,14 @@
 							},
 							{
 								"source": {
-									"path": "$['topping'][0]['type']"
+									"path": "['type']"
 								},
 								"sink": {
 									"ordinal": 8
 								}
 							}
 						],
+						"collectionReference": "$['topping']",
 						"mapComplexValuesToString": true
 					}
 				},
@@ -124,6 +125,8 @@
 				]
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-04-01T12:22:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

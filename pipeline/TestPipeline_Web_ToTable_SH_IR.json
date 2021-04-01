@@ -46,7 +46,10 @@
 					"storedProcedureName": "dbo.spRestData",
 					"storedProcedureParameters": {
 						"logDetails": {
-							"value": "@string(activity('Web1').output)",
+							"value": {
+								"value": "@string(activity('Web1').output)",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -57,6 +60,8 @@
 				}
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-03-31T18:50:57Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

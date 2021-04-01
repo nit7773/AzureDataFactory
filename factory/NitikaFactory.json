@@ -1,4 +1,9 @@
 {
 	"name": "NitikaFactory",
-	"location": "canadacentral"
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8c29e532-0746-40ca-8d6f-8bca998ab14e",
+		"tenantId": "cf36141c-ddd7-45a7-b073-111f66d0b30c"
+	}
 }

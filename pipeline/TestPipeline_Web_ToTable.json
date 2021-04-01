@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA",
+					"url": "http://dummy.restapiexample.com/api/v1/employees",
 					"method": "GET"
 				}
 			},
@@ -42,7 +42,10 @@
 					"storedProcedureName": "dbo.spRestData",
 					"storedProcedureParameters": {
 						"logDetails": {
-							"value": "@string(activity('Web1').output)",
+							"value": {
+								"value": "@string(activity('Web1').output)",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -51,8 +54,37 @@
 					"referenceName": "linkedService2",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Stored procedure2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Stored procedure1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[spOpenJsonData]"
+				},
+				"linkedServiceName": {
+					"referenceName": "linkedService2",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-03-31T19:55:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

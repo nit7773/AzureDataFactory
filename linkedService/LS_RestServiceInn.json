@@ -1,5 +1,6 @@
 {
 	"name": "LS_RestServiceInn",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "RestService",
@@ -12,6 +13,5 @@
 			"referenceName": "IRSelfHosted",
 			"type": "IntegrationRuntimeReference"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/linkedservices"
+	}
 }

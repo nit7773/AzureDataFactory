@@ -1,5 +1,5 @@
 {
-	"name": "Pipeline_GetRestAPIData",
+	"name": "TestPipeline_UsingCopyActivity_NoSchemacopy1",
 	"properties": {
 		"activities": [
 			{
@@ -16,16 +16,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET"
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
 					},
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "PreserveHierarchy"
+							"type": "AzureBlobStorageWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -36,52 +40,25 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "['Fid']"
-								},
-								"sink": {
-									"name": "Fid"
-								}
-							},
-							{
-								"source": {
-									"path": "['InfoFromEdi']"
-								},
-								"sink": {
-									"name": "items"
-								}
-							},
-							{
-								"source": {
-									"path": "['OperationalMailitems']"
-								},
-								"sink": {
-									"name": "items"
-								}
-							}
-						],
-						"collectionReference": "$['Results']",
 						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_RestAPI",
+						"referenceName": "Json1",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_ADLS",
+						"referenceName": "DS_Target",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2021-03-31T15:58:34Z"
+		"lastPublishTime": "2021-03-31T19:07:00Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
