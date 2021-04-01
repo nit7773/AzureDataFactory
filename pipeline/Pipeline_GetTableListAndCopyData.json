@@ -124,7 +124,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_AzureSqlTable",
+									"referenceName": "DS_AdventureWorksLT",
 									"type": "DatasetReference"
 								}
 							],
