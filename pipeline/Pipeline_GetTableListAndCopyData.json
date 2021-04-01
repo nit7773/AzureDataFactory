@@ -67,7 +67,7 @@
 					},
 					"activities": [
 						{
-							"name": "COPY_AzureSql_DataLake",
+							"name": "COPY_IMS",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
