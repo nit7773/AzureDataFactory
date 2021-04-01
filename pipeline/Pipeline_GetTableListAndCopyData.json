@@ -23,7 +23,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DS_AzureSqlTable",
+						"referenceName": "DS_TableList",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
