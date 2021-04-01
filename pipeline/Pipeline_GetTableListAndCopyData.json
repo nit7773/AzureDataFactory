@@ -1,5 +1,5 @@
 {
-	"name": "EP_GetTableListAndTriggerCopyData_copy1",
+	"name": "Pipeline_GetTableListAndCopyData",
 	"properties": {
 		"activities": [
 			{
@@ -9,7 +9,7 @@
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
-					"retry": 0,
+					"retry": 3,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
@@ -32,14 +32,7 @@
 			{
 				"name": "EP_TriggerCopy",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Lkp_SQLTableList",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -54,8 +47,105 @@
 						}
 					}
 				}
+			},
+			{
+				"name": "For_IterateSQLTables",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lkp_SQLTableList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.tableList",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "COPY_AzureSql_DataLake",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "SELECT * FROM [@{item().TABLE_SCHEMA}].[@{item().TABLE_NAME}]\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": true,
+								"logSettings": {
+									"enableCopyActivityLog": true,
+									"copyActivityLogSettings": {
+										"logLevel": "Info",
+										"enableReliableLogging": false
+									},
+									"logLocationSettings": {
+										"linkedServiceName": {
+											"referenceName": "LS_Logging",
+											"type": "LinkedServiceReference"
+										},
+										"path": "logging"
+									}
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_AzureSqlTable",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_Parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"DWFolder": "@item().TABLE_NAME",
+										"DWFile": "@item().TABLE_SCHEMA"
+									}
+								}
+							]
+						}
+					]
+				}
 			}
 		],
+		"folder": {
+			"name": "Template"
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-03-10T20:50:51Z"
 	},
