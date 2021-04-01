@@ -30,25 +30,6 @@
 				}
 			},
 			{
-				"name": "EP_TriggerCopy",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "EP_IterateAndCopySqlTables",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": false,
-					"parameters": {
-						"tableList": {
-							"value": "@activity('Lkp_SQLTableList').output.value",
-							"type": "Expression"
-						}
-					}
-				}
-			},
-			{
 				"name": "For_IterateSQLTables",
 				"type": "ForEach",
 				"dependsOn": [
@@ -99,20 +80,6 @@
 								},
 								"enableStaging": false,
 								"validateDataConsistency": true,
-								"logSettings": {
-									"enableCopyActivityLog": true,
-									"copyActivityLogSettings": {
-										"logLevel": "Info",
-										"enableReliableLogging": false
-									},
-									"logLocationSettings": {
-										"linkedServiceName": {
-											"referenceName": "LS_Logging",
-											"type": "LinkedServiceReference"
-										},
-										"path": "logging"
-									}
-								},
 								"translator": {
 									"type": "TabularTranslator",
 									"typeConversion": true,
