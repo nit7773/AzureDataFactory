@@ -62,7 +62,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ''',variables('JsonString'),'''')",
+							"value": "@concat('SELECT ''',variables('JsonString'),'''',' AS Sourcedata')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
