@@ -62,22 +62,14 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@activity('Lookup1').output",
+							"value": "@concat('SELECT ''',variables('JsonString'),'''')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
+						"type": "AzureSqlSink"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -97,7 +89,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_ADLS",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					}
 				]
