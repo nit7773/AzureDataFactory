@@ -79,7 +79,7 @@
 							"value": "@dataset().DWSchema",
 							"type": "Expression"
 						},
-						"fileSystem": "IMS"
+						"fileSystem": "ims"
 					},
 					"compressionCodec": "snappy"
 				},
