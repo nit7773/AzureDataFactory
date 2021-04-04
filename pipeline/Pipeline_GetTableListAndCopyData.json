@@ -95,7 +95,11 @@
 							"outputs": [
 								{
 									"referenceName": "DS_IMS",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DWTableName": "@item().TABLE_NAME",
+										"DWSchema": "@item().TABLE_SCHEMA"
+									}
 								}
 							]
 						}
