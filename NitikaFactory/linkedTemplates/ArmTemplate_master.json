@@ -15,6 +15,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseLS'"
 		},
+		"LS_ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLS'"
+		},
+		"LS_AdventureWorksLT_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_AdventureWorksLT'"
+		},
 		"LS_AzureSqlDatabase_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_AzureSqlDatabase'"
@@ -31,15 +39,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService2'"
 		},
-		"LS_AdventureWorksLT_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_AdventureWorksLT'"
-		},
-		"LS_ADLS_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_ADLS'"
-		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://nitikainnovapost.dfs.core.windows.net"
+		},
+		"LS_ADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://nitikainnovapost.dfs.core.windows.net"
 		},
@@ -54,10 +58,6 @@
 		"LS_RestServiceInn_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA"
-		},
-		"LS_ADLS_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://nitikainnovapost.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -92,6 +92,9 @@
 					"AzureSqlDatabaseLS_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseLS_connectionString')]"
 					},
+					"LS_ADLS_accountKey": {
+						"value": "[parameters('LS_ADLS_accountKey')]"
+					},
 					"LS_AzureSqlDatabase_connectionString": {
 						"value": "[parameters('LS_AzureSqlDatabase_connectionString')]"
 					},
@@ -104,23 +107,17 @@
 					"linkedService2_connectionString": {
 						"value": "[parameters('linkedService2_connectionString')]"
 					},
-					"LS_ADLS_accountKey": {
-						"value": "[parameters('LS_ADLS_accountKey')]"
-					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
+					},
+					"LS_ADLS_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLS_properties_typeProperties_url')]"
 					},
 					"LS_Logging_properties_typeProperties_url": {
 						"value": "[parameters('LS_Logging_properties_typeProperties_url')]"
 					},
 					"LS_RestAPIConnection_properties_typeProperties_url": {
 						"value": "[parameters('LS_RestAPIConnection_properties_typeProperties_url')]"
-					},
-					"LS_ADLS_properties_typeProperties_url": {
-						"value": "[parameters('LS_ADLS_properties_typeProperties_url')]"
-					},
-					"LS_RestServiceInn_properties_typeProperties_url": {
-						"value": "[parameters('LS_RestServiceInn_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -142,6 +139,9 @@
 					},
 					"LS_AdventureWorksLT_connectionString": {
 						"value": "[parameters('LS_AdventureWorksLT_connectionString')]"
+					},
+					"LS_RestServiceInn_properties_typeProperties_url": {
+						"value": "[parameters('LS_RestServiceInn_properties_typeProperties_url')]"
 					}
 				}
 			},
