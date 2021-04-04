@@ -23,6 +23,12 @@
 		"linkedService2_connectionString": {
 			"value": ""
 		},
+		"LS_AdventureWorksLT_connectionString": {
+			"value": ""
+		},
+		"LS_ADLS_accountKey": {
+			"value": ""
+		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"value": "https://nitikainnovapost.dfs.core.windows.net"
 		},
@@ -34,6 +40,9 @@
 		},
 		"LS_RestServiceInn_properties_typeProperties_url": {
 			"value": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA"
+		},
+		"LS_ADLS_properties_typeProperties_url": {
+			"value": "https://nitikainnovapost.dfs.core.windows.net"
 		}
 	}
 }
