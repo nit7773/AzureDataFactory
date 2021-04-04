@@ -62,10 +62,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "SELECT * FROM [@{item().TABLE_SCHEMA}].[@{item().TABLE_NAME}]\n",
-										"type": "Expression"
-									},
+									"sqlReaderQuery": "SELECT * FROM [@{item().TABLE_SCHEMA}].[@{item().TABLE_NAME}]",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -106,6 +103,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"tableList": {
+				"type": "array"
+			}
+		},
 		"folder": {
 			"name": "Template"
 		},
