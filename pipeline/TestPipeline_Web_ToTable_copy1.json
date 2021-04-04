@@ -34,7 +34,7 @@
 				"typeProperties": {
 					"variableName": "JsonString",
 					"value": {
-						"value": "@string(activity('Web1').output)",
+						"value": "@string(activity('Web1').output.data)",
 						"type": "Expression"
 					}
 				}
@@ -125,7 +125,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ',variables('JsonString'), ' AS Json1')",
+							"value": "@concat('SELECT ''',variables('JsonString'),'''')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
