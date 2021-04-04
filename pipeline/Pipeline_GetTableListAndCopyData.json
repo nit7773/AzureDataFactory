@@ -4,7 +4,7 @@
 		"activities": [
 			{
 				"name": "Lkp_SQLTableList",
-				"description": "Retrieve the table list from my database",
+				"description": "Retrieve the table list from the database",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -43,7 +43,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.tableList",
+						"value": "@activity('Lkp_SQLTableList').output.value",
 						"type": "Expression"
 					},
 					"activities": [
