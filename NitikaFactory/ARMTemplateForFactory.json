@@ -1778,7 +1778,7 @@
 							"value": "@dataset().DWSchema",
 							"type": "Expression"
 						},
-						"fileSystem": "innovapostnew"
+						"fileSystem": "IMS"
 					},
 					"compressionCodec": "snappy"
 				},
