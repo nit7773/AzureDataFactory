@@ -18,6 +18,44 @@
 					"url": "http://dummy.restapiexample.com/api/v1/employees",
 					"method": "GET"
 				}
+			},
+			{
+				"name": "Copy_RestAPI",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Web_RestAPI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('SELECT ''',activity('Web_RestAPI').output.data,'''',' AS Sourcedata')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_AdventureWorksLT",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
