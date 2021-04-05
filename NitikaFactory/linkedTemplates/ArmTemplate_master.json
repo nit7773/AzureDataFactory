@@ -39,6 +39,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService2'"
 		},
+		"LS_RestAPITable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_RestAPITable'"
+		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://nitikainnovapost.dfs.core.windows.net"
@@ -106,6 +110,9 @@
 					},
 					"linkedService2_connectionString": {
 						"value": "[parameters('linkedService2_connectionString')]"
+					},
+					"LS_RestAPITable_connectionString": {
+						"value": "[parameters('LS_RestAPITable_connectionString')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
