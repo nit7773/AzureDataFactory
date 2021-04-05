@@ -15,7 +15,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "http://dummy.restapiexample.com/api/v1/employees",
+					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/TrackAndTraceService.svc/rest/Mailitems?token=5163a012-b13c-4560-b008-3d166e1187e9&ids=CJ167312246US,LZ426599653US,LX665666063US,EE187927059CA",
+					"connectVia": {
+						"referenceName": "IRSelfHosted",
+						"type": "IntegrationRuntimeReference"
+					},
 					"method": "GET"
 				}
 			},
