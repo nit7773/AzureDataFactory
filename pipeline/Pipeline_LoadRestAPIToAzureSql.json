@@ -135,11 +135,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"APIList": {
-				"type": "array"
-			}
-		},
 		"annotations": []
 	}
 }
