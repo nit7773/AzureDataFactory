@@ -85,7 +85,8 @@
 				]
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lkp_RestAPImetadata",
+				"description": "Retrieve the table list from the metadata table",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -95,7 +96,18 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_RestAPIMetadata",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
 		"annotations": []
