@@ -23,13 +23,13 @@
 		"LS_Logging_accountKey": {
 			"value": ""
 		},
+		"LS_RestAPITable_connectionString": {
+			"value": ""
+		},
 		"linkedService1_connectionString": {
 			"value": ""
 		},
 		"linkedService2_connectionString": {
-			"value": ""
-		},
-		"LS_RestAPITable_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {

@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Logging'"
 		},
+		"LS_RestAPITable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_RestAPITable'"
+		},
 		"linkedService1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService1'"
@@ -34,10 +38,6 @@
 		"linkedService2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService2'"
-		},
-		"LS_RestAPITable_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_RestAPITable'"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
@@ -153,6 +153,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_RestAPITable')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_RestAPITable_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/linkedService1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -204,19 +217,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_RestAPITable')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_RestAPITable_connectionString')]"
-				}
 			},
 			"dependsOn": []
 		},

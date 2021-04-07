@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Logging'"
 		},
+		"LS_RestAPITable_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_RestAPITable'"
+		},
 		"linkedService1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService1'"
@@ -38,10 +42,6 @@
 		"linkedService2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService2'"
-		},
-		"LS_RestAPITable_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_RestAPITable'"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
@@ -105,14 +105,14 @@
 					"LS_Logging_accountKey": {
 						"value": "[parameters('LS_Logging_accountKey')]"
 					},
+					"LS_RestAPITable_connectionString": {
+						"value": "[parameters('LS_RestAPITable_connectionString')]"
+					},
 					"linkedService1_connectionString": {
 						"value": "[parameters('linkedService1_connectionString')]"
 					},
 					"linkedService2_connectionString": {
 						"value": "[parameters('linkedService2_connectionString')]"
-					},
-					"LS_RestAPITable_connectionString": {
-						"value": "[parameters('LS_RestAPITable_connectionString')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
