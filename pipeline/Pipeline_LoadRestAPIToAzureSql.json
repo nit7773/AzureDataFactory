@@ -92,11 +92,6 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"additionalColumns": [
-										{
-											"value": "$$COLUMN:"
-										}
-									],
 									"sqlReaderQuery": {
 										"value": "@concat('SELECT ''',activity('Web_RestAPI_copy1').output,'''',' AS Sourcedata')",
 										"type": "Expression"
