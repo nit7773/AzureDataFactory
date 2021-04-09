@@ -145,7 +145,7 @@
 				"typeProperties": {
 					"variableName": "tablename",
 					"value": {
-						"value": "@lastindexof(string(activity('Lkp_RestAPImetadata').output.),'/')",
+						"value": "@activity('Lkp_RestAPImetadata').output.value.APIName",
 						"type": "Expression"
 					}
 				}
