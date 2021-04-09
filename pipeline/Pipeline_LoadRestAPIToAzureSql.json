@@ -146,19 +146,6 @@
 							"typeProperties": {
 								"variableName": "tablename",
 								"value": {
-									"value": "@string(lastindexof(item().APIName,'/'))",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable1_copy1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "tablename",
-								"value": {
 									"value": "@substring(string(item().APIName),add(lastindexof(item().APIName,'/api'),4),lastindexof(item().APIName,'/'))",
 									"type": "Expression"
 								}
