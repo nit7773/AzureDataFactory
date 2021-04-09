@@ -146,7 +146,7 @@
 							"typeProperties": {
 								"variableName": "tablename",
 								"value": {
-									"value": "@item().APIName",
+									"value": "@lastindexof\"abce\",'e')",
 									"type": "Expression"
 								}
 							}
