@@ -19,7 +19,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ','APIName',',lastindexof(APIName,''/'')')",
+							"value": "@concat('SELECT ','lastindexof(APIName,''/'')')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
