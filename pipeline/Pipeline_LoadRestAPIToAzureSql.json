@@ -146,7 +146,7 @@
 							"typeProperties": {
 								"variableName": "tablename",
 								"value": {
-									"value": "@substring(string(item().APIName),add(lastindexof(item().APIName,'api/'),0),lastindexof(item().APIName,'/employees'))",
+									"value": "@substring(string(item().APIName),add(lastindexof(item().APIName,'api'),0),lastindexof(item().APIName,'/employees'))",
 									"type": "Expression"
 								}
 							}
