@@ -157,7 +157,7 @@
 		],
 		"variables": {
 			"tablename": {
-				"type": "Boolean"
+				"type": "String"
 			}
 		},
 		"annotations": []
