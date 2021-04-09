@@ -31,11 +31,18 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lkp_RestAPImetadata').output.value",
+						"value": "@activity('activity('Lkp_RestAPImetadata').output').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
