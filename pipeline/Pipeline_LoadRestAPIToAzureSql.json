@@ -48,7 +48,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Web_RestAPI_copy1",
+							"name": "Web_RestAPI",
 							"type": "WebActivity",
 							"dependsOn": [],
 							"policy": {
@@ -72,11 +72,11 @@
 							}
 						},
 						{
-							"name": "Copy_RestAPI_copy1",
+							"name": "Copy_RestAPI",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Web_RestAPI_copy1",
+									"activity": "Web_RestAPI",
 									"dependencyConditions": [
 										"Succeeded"
 									]
