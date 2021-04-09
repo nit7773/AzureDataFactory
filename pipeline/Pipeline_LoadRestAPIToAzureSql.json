@@ -146,7 +146,7 @@
 							"typeProperties": {
 								"variableName": "tablename",
 								"value": {
-									"value": "@lastindexof\"abce\",'e')",
+									"value": "@lastindexof('foofoo','foo')",
 									"type": "Expression"
 								}
 							}
@@ -157,7 +157,7 @@
 		],
 		"variables": {
 			"tablename": {
-				"type": "String"
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
