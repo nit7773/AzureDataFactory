@@ -146,7 +146,7 @@
 							"typeProperties": {
 								"variableName": "tablename",
 								"value": {
-									"value": "@item()",
+									"value": "@item().value",
 									"type": "Expression"
 								}
 							}
