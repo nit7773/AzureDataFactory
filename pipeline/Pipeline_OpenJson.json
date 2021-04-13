@@ -17,14 +17,37 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select json_value(sourcedata, '$.id') id,\n       json_value(sourcedata, '$.attributes.source') [source],\n       json_value(sourcedata, '$.attributes.medium') [medium],\n       json_query(sourcedata, '$.attributes.visit_route') visit_route,\n       json_value(sourcedata, N'$.attributes.keyword') keyword\nfrom [dbo].[RestData]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "DS_AzureSqlReadJson",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ExtractedJson",
 						"type": "DatasetReference"
 					}
 				]
