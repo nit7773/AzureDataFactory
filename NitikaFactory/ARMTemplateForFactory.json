@@ -2217,7 +2217,7 @@
 					},
 					"id": {
 						"type": "String",
-						"defaultValue": "4f7a299a-3fd0-4215-9d27-b0b9925f872c,ae4d19bc-8ef3-4872-a409-df7247b34b28"
+						"defaultValue": "4f7a299a-3fd0-4215-9d27-b0b9925f872c"
 					}
 				},
 				"annotations": []
