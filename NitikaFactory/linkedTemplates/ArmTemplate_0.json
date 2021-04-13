@@ -472,12 +472,26 @@
 					"referenceName": "LS_RestAPITable",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"DWSchema": {
+						"type": "string"
+					},
+					"DWTable": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "RestData"
+					"schema": {
+						"value": "@dataset().DWSchema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().DWTable",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
