@@ -2217,7 +2217,7 @@
 					},
 					"id": {
 						"type": "String",
-						"defaultValue": "4f7a299a-3fd0-4215-9d27-b0b9925f872c"
+						"defaultValue": "CNCANDCAYVRAAEN90071032000020"
 					}
 				},
 				"annotations": []
@@ -2258,7 +2258,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@activity('Lookup1').output.firstRow",
+									"value": "@concat('SELECT ''',activity('Lookup1').output,'''')",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -2309,7 +2309,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select json_value(sourcedata, '$.id') id,\n       json_value(sourcedata, '$.attributes.source') [source],\n       json_value(sourcedata, '$.attributes.medium') [medium],\n       json_query(sourcedata, '$.attributes.visit_route') visit_route,\n       json_value(sourcedata, N'$.attributes.keyword') keyword\nfrom [dbo].[RestData]",
+								"sqlReaderQuery": "select json_value(sourcedata, '$.id') id,\n       json_value(sourcedata, '$.attributes.source') [source],\n       json_value(sourcedata, '$.attributes.medium') [medium],\n       json_query(sourcedata, '$.attributes.visit_route') visit_route,\n       json_value(sourcedata, '$.attributes.keyword') keyword\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
