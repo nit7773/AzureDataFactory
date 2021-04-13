@@ -72,7 +72,11 @@
 							"inputs": [
 								{
 									"referenceName": "DS_AzureSqlTable",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DWSchema": "dbo",
+										"DWTable": "abc"
+									}
 								}
 							],
 							"outputs": [
