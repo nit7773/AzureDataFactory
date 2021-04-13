@@ -1501,7 +1501,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"url": {
-											"value": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/ReceptaclesService.svc/rest/receptacles?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&ReceptacleID=4f7a299a-3fd0-4215-9d27-b0b9925f872c,ae4d19bc-8ef3-4872-a409-df7247b34b28",
+											"value": "@concat(item().APIName,'?','token=',variables('accesstoken'),'&ReceptacleId=',variables('id'))",
 											"type": "Expression"
 										},
 										"connectVia": {
@@ -1590,6 +1590,14 @@
 				"variables": {
 					"tablename": {
 						"type": "String"
+					},
+					"accesstoken": {
+						"type": "String",
+						"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
+					},
+					"id": {
+						"type": "String",
+						"defaultValue": "4f7a299a-3fd0-4215-9d27-b0b9925f872c,ae4d19bc-8ef3-4872-a409-df7247b34b28"
 					}
 				},
 				"annotations": []
