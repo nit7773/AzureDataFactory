@@ -224,6 +224,7 @@
 								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
+							"validateDataConsistency": true,
 							"translator": {
 								"type": "TabularTranslator",
 								"typeConversion": true,
