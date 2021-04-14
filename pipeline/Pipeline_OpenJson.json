@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ''',activity('Lookup1').output,'''',' AS Sourcedata')",
+							"value": "@activity('Lookup1').output",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -82,7 +82,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "  SELECT *\nFROM OPENJSON (Sourcedata,'$.Users')  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  \n )",
+						"sqlReaderQuery": {
+							"value": "@SELECT *\nFROM OPENJSON (activity('Lookup2').output,'$.Users')  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  )",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
