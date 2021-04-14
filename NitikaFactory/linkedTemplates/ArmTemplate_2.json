@@ -263,7 +263,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select json_value(sourcedata, '$.id') id,\n       json_value(sourcedata, '$.attributes.source') [source],\n       json_value(sourcedata, '$.attributes.medium') [medium],\n       json_query(sourcedata, '$.attributes.visit_route') visit_route,\n       json_value(sourcedata, '$.attributes.keyword') keyword\n",
+								"sqlReaderQuery": "SELECT *\nFROM OPENJSON (sourcedata)  \nWITH (   \n            [USER_PID]     SMALLINT '$.Users.UserPid',\n            [USER_FID]     VARCHAR  '$.Users.UserFid',\n            [USER_NM]      VARCHAR  '$.Users.UserName'\n  \n )\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
