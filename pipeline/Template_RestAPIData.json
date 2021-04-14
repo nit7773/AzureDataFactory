@@ -101,7 +101,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS Sourcedata')",
+										"value": "@concat('SELECT ''',activity('Web_RestAPI').output.value,'''',' AS Sourcedata')",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
