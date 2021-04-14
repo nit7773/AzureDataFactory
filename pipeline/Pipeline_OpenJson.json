@@ -63,6 +63,38 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "  SELECT *\nFROM OPENJSON (Sourcedata,'$.Users')  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  \n )",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_AzureSqlReadJson",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -75,7 +107,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select json_value(sourcedata, '$.Users.UserPid') USER_PID,\n       json_value(sourcedata, '$.Users.UserFid') USER_FID,\n       json_value(sourcedata, '$.Users.UserName') USER_NM FROM [dbo].[RestData]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -86,6 +117,11 @@
 				}
 			}
 		],
+		"variables": {
+			"JsonString": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
