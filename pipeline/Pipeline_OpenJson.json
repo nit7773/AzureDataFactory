@@ -75,7 +75,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select json_value(sourcedata, '$.Users.UserPid') USER_PID,\n       json_value(sourcedata, '$.Users.UserFid') USER_FID,\n       json_value(sourcedata, '$.Users.UserName') USER_NM FROm dbo.RestData",
+						"sqlReaderQuery": "select json_value(sourcedata, '$.Users.UserPid') USER_PID,\n       json_value(sourcedata, '$.Users.UserFid') USER_FID,\n       json_value(sourcedata, '$.Users.UserName') USER_NM FROM [dbo].[RestData]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
