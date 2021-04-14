@@ -326,7 +326,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lkp_RestAPImetadata').output",
+								"value": "@activity('Lkp_RestAPImetadata').output.value",
 								"type": "Expression"
 							},
 							"isSequential": true,
