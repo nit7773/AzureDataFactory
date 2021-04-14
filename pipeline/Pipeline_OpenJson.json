@@ -75,7 +75,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT *\nFROM OPENJSON (dbo.RestData.Sourcedata)  \nWITH (   \n            [USER_PID]     SMALLINT '$.Users.UserPid',\n            [USER_FID]     VARCHAR  '$.Users.UserFid',\n            [USER_NM]      VARCHAR  '$.Users.UserName'\n  \n )\n",
+						"sqlReaderQuery": "SELECT *\nFROM OPENJSON (Sourcedata)  \nWITH (   \n            [USER_PID]     SMALLINT '$.Users.UserPid',\n            [USER_FID]     VARCHAR  '$.Users.UserFid',\n            [USER_NM]      VARCHAR  '$.Users.UserName'\n  \n )\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
