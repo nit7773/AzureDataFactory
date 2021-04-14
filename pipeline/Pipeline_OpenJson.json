@@ -83,7 +83,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@SELECT *\nFROM OPENJSON (activity('Lookup2').output,'$.Users')  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  )",
+							"value": "@concat('SELECT * FROM OPENJSON (''',activity('Lookup2').output,'''',',','''$.Users''')  \nWITH (   \n            [USER_PID]     SMALLINT '''$.UserPid''',\n            [USER_FID]     VARCHAR  '''$.UserFid''',\n            [USER_NM]      VARCHAR  '''$.UserName'''\n  ))",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
