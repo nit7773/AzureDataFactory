@@ -684,7 +684,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@activity('Lookup1').output",
+									"value": "@concat('SELECT ''',activity('Lookup1').output.value,'''',' AS Sourcedata')",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -744,7 +744,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@SELECT *\nFROM OPENJSON (@{variables('JsonString')})  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  )",
+									"value": "SELECT \n  JSON_VALUE(Sourcedata, '$[0].id') AS PostCode\nFROM [dbo].[RestData]\n",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -754,7 +754,8 @@
 								"referenceName": "DS_AzureSqlReadJson",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
@@ -779,7 +780,8 @@
 								"referenceName": "DS_AzureSqlReadJson",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
@@ -797,8 +799,149 @@
 						"typeProperties": {
 							"variableName": "JsonString",
 							"value": {
-								"value": "@activity('Lookup2').output",
+								"value": "@string(activity('Lookup2').output.value)",
 								"type": "Expression"
+							}
+						}
+					}
+				],
+				"variables": {
+					"JsonString": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_AzureSqlReadJson')]",
+				"[concat(variables('factoryId'), '/datasets/DS_ExtractedJson')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Pipeline_OpenJson_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@activity('Lookup1').output",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"validateDataConsistency": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_AzureSqlReadJson",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ExtractedJson",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lookup2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM OPENJSON (@{activity('Lookup2').output.firstRow.Sourcedata}) \n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_AzureSqlReadJson",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Lookup2",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_AzureSqlReadJson",
+								"type": "DatasetReference",
+								"parameters": {}
 							}
 						}
 					}
@@ -2428,7 +2571,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Pipeline_OpenJson_copy1')]",
+			"name": "[concat(parameters('factoryName'), '/TestPipeline_OpenJson_copy2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2438,7 +2581,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Lookup1",
+								"activity": "Set variable1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2456,7 +2599,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@activity('Lookup1').output",
+									"value": "DECLARE @json NVARCHAR(MAX);\nSET @json = (SELECT Sourcedata  FROM [dbo].[RestData]);\nSELECT [USER_PID], \n             [USER_FID],\n             [USER_NM] \n FROM OPENJSON (@json)  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(200)  '$.UserFid',\n            [USER_NM]      VARCHAR(200)  '$.UserName'\n  \n )\n",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -2494,42 +2637,6 @@
 						]
 					},
 					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Set variable1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) \n  WITH (\n    id INT 'strict $.id',\n    firstName NVARCHAR(50) '$.info.name',\n    lastName NVARCHAR(50) '$.info.surname',\n    age INT,\n    dateOfBirth DATETIME2 '$.dob'\n  )",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "DS_AzureSqlReadJson",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
 						"name": "Lookup2",
 						"type": "Lookup",
 						"dependsOn": [],
@@ -2551,7 +2658,8 @@
 								"referenceName": "DS_AzureSqlReadJson",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
@@ -2569,7 +2677,7 @@
 						"typeProperties": {
 							"variableName": "JsonString",
 							"value": {
-								"value": "@activity('Lookup2').output",
+								"value": "@string(activity('Lookup2').output.value)",
 								"type": "Expression"
 							}
 						}
