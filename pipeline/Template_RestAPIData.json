@@ -132,8 +132,14 @@
 									"referenceName": "DS_AzureSqlTable",
 									"type": "DatasetReference",
 									"parameters": {
-										"DWSchema": "dbo",
-										"DWTable": "RestData"
+										"DWSchema": {
+											"value": "@variables('TableSchema')",
+											"type": "Expression"
+										},
+										"DWTable": {
+											"value": "@variables('TableName')",
+											"type": "Expression"
+										}
 									}
 								}
 							]
