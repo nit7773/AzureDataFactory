@@ -83,7 +83,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@SELECT *\nFROM OPENJSON (json(@{variables('JsonString')})) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]     VARCHAR(100)  '$.UserName'\n  )",
+							"value": "@SELECT *\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]     VARCHAR(100)  '$.UserName'\n  )",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
