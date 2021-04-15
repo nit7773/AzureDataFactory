@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT \n  JSON_VALUE(Sourcedata, '$[0].id') AS PostCode\nFROM [dbo].[RestData]\n",
+							"value": "SELECT \n  JSON_VALUE(Sourcedata, '$[0].id') AS Sourcedata\nFROM [dbo].[RestData]\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
