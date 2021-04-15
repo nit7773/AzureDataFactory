@@ -39,8 +39,7 @@
 							},
 							"dataset": {
 								"referenceName": "DS_RestAPIMetadata",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -92,8 +91,7 @@
 											"referenceName": "IRAzureMemoryOptimized8Cores",
 											"type": "IntegrationRuntimeReference"
 										},
-										"method": "GET",
-										"headers": {}
+										"method": "GET"
 									}
 								},
 								{
@@ -142,8 +140,7 @@
 									"inputs": [
 										{
 											"referenceName": "DS_AdventureWorksLT",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									],
 									"outputs": [
@@ -237,15 +234,13 @@
 						"inputs": [
 							{
 								"referenceName": "DS_AzureSqlReadJson",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DS_ExtractedJson",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -280,8 +275,7 @@
 							},
 							"dataset": {
 								"referenceName": "DS_AzureSqlReadJson",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					},
@@ -305,8 +299,7 @@
 							},
 							"dataset": {
 								"referenceName": "DS_AzureSqlReadJson",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					},
@@ -367,8 +360,7 @@
 							},
 							"dataset": {
 								"referenceName": "DS_RestAPIMetadata",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -420,8 +412,7 @@
 											"referenceName": "IRSelfHosted",
 											"type": "IntegrationRuntimeReference"
 										},
-										"method": "GET",
-										"headers": {}
+										"method": "GET"
 									}
 								},
 								{
@@ -470,8 +461,7 @@
 									"inputs": [
 										{
 											"referenceName": "DS_AdventureWorksLT",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									],
 									"outputs": [

@@ -586,7 +586,7 @@
 										"source": {
 											"type": "AzureSqlSource",
 											"sqlReaderQuery": {
-												"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS Sourcedata')",
+												"value": "@concat('SELECT ''',activity('Web_RestAPI').output.Users,'''',' AS Sourcedata')",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
@@ -684,7 +684,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@concat('SELECT ''',activity('Lookup1').output,'''')",
+									"value": "@activity('Lookup1').output",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -724,6 +724,42 @@
 					{
 						"name": "Lookup1",
 						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@SELECT *\nFROM OPENJSON (@{variables('JsonString')})  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR  '$.UserFid',\n            [USER_NM]      VARCHAR  '$.UserName'\n  )",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_AzureSqlReadJson",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "Lookup2",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -736,7 +772,6 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT *\nFROM OPENJSON (sourcedata)  \nWITH (   \n            [USER_PID]     SMALLINT '$.Users.UserPid',\n            [USER_FID]     VARCHAR  '$.Users.UserFid',\n            [USER_NM]      VARCHAR  '$.Users.UserName'\n  \n )\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -746,8 +781,33 @@
 								"parameters": {}
 							}
 						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "JsonString",
+							"value": {
+								"value": "@activity('Lookup2').output",
+								"type": "Expression"
+							}
+						}
 					}
 				],
+				"variables": {
+					"JsonString": {
+						"type": "String"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -862,7 +922,7 @@
 										"source": {
 											"type": "AzureSqlSource",
 											"sqlReaderQuery": {
-												"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS Sourcedata')",
+												"value": "@concat('SELECT ''',activity('Web_RestAPI').output.Users,'''',' AS Sourcedata')",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
