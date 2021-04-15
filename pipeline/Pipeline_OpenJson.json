@@ -65,7 +65,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Lookup2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -82,6 +82,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@SELECT *\nFROM OPENJSON (@{activity('Lookup2').output})  \nWITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]      VARCHAR(100)  '$.UserName'\n  )",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -112,26 +116,6 @@
 					"dataset": {
 						"referenceName": "DS_AzureSqlReadJson",
 						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "JsonString",
-					"value": {
-						"value": "@activity('Lookup2').output",
-						"type": "Expression"
 					}
 				}
 			}
