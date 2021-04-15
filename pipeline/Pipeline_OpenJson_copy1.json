@@ -83,7 +83,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM OPENJSON (@{activity('Lookup2').output.firstRow}) \n  WITH (\n    id INT '$.id',\n    firstName NVARCHAR(50) '$.info.name',\n    lastName NVARCHAR(50) '$.info.surname',\n    age INT,\n    dateOfBirth DATETIME2 '$.dob'\n  );",
+							"value": "SELECT *\nFROM OPENJSON (@{activity('Lookup2').output.firstRow}) \n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
