@@ -65,7 +65,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Lookup2",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -83,7 +83,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM OPENJSON (@{string(activity('Lookup2').output.firstRow.Sourcedata)}) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]      VARCHAR(100)  '$.UserName'\n  )",
+							"value": "SELECT USER_PID,USER_FID,USER_NM\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]     VARCHAR(100)  '$.UserName'\n  )",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -116,6 +116,26 @@
 					"dataset": {
 						"referenceName": "DS_AzureSqlReadJson",
 						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "JsonString",
+					"value": {
+						"value": "@string(activity('Lookup2').output.firstRow.Sourcedata)",
+						"type": "Expression"
 					}
 				}
 			}
