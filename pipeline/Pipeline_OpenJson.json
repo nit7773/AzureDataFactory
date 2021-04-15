@@ -134,7 +134,7 @@
 				"typeProperties": {
 					"variableName": "JsonString",
 					"value": {
-						"value": "@string(activity('Lookup2').output.firstRow.Sourcedata)",
+						"value": "@json(activity('Lookup2').output.firstRow.Sourcedata)",
 						"type": "Expression"
 					}
 				}
