@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [ID]     SMALLINT '$.id',\n            [AGE]    SMALLINT '$.age'\n  \n )",
+							"value": "DECLARE @json NVARCHAR(MAX);\nSET @json = (SELECT Sourcedata  FROM [dbo].[RestData]);\nSELECT *\nFROM OPENJSON (@json)  WITH (   \n            [ID]     SMALLINT '$.id',\n            [AGE]    SMALLINT '$.age'\n  \n )",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
