@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(1000)  '$.UserFid',\n            [USER_NM]     VARCHAR(1000)  '$.UserName'\n  )\n\n",
+							"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [ID]     SMALLINT '$.id',\n            [AGE]    SMALLINT '$.age'\n  \n )",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
