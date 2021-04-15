@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT \n  JSON_VALUE(Sourcedata, '$[0].id') AS Sourcedata\nFROM [dbo].[RestData]\n",
+							"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) WITH (   \n            [USER_PID]     SMALLINT '$.UserPid',\n            [USER_FID]     VARCHAR(100)  '$.UserFid',\n            [USER_NM]     VARCHAR(100)  '$.UserName'\n  )\n\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
