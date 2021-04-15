@@ -92,7 +92,8 @@
 					"dataset": {
 						"referenceName": "DS_AzureSqlReadJson",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
