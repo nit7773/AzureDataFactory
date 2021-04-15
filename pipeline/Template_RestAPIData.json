@@ -148,6 +148,9 @@
 				"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
 			}
 		},
+		"folder": {
+			"name": "RESTAPI"
+		},
 		"annotations": []
 	}
 }
