@@ -153,12 +153,15 @@
 			}
 		],
 		"variables": {
-			"tablename": {
-				"type": "String"
-			},
-			"accesstoken": {
+			"Token": {
 				"type": "String",
 				"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
+			},
+			"TableSchema": {
+				"type": "String"
+			},
+			"TableName": {
+				"type": "String"
 			}
 		},
 		"annotations": []
