@@ -65,7 +65,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Lookup2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -83,7 +83,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM OPENJSON (@{variables('JsonString')}) \n  WITH (\n    id INT 'strict $.id',\n    firstName NVARCHAR(50) '$.info.name',\n    lastName NVARCHAR(50) '$.info.surname',\n    age INT,\n    dateOfBirth DATETIME2 '$.dob'\n  )",
+							"value": "SELECT *\nFROM OPENJSON (@{activity('Lookup2').output}) \n  WITH (\n    id INT 'strict $.id',\n    firstName NVARCHAR(50) '$.info.name',\n    lastName NVARCHAR(50) '$.info.surname',\n    age INT,\n    dateOfBirth DATETIME2 '$.dob'\n  )",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -119,31 +119,11 @@
 						"type": "DatasetReference"
 					}
 				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "JsonString",
-					"value": {
-						"value": "@activity('Lookup2').output.firstRow",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {
 			"JsonString": {
-				"type": "Array"
+				"type": "String"
 			}
 		},
 		"annotations": []
