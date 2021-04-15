@@ -514,7 +514,7 @@
 						}
 					},
 					{
-						"name": "ForEach1",
+						"name": "For_AllRestAPI",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -535,14 +535,7 @@
 								{
 									"name": "Web_RestAPI",
 									"type": "WebActivity",
-									"dependsOn": [
-										{
-											"activity": "Set variable1",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
+									"dependsOn": [],
 									"policy": {
 										"timeout": "7.00:00:00",
 										"retry": 3,
@@ -553,7 +546,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"url": {
-											"value": "@concat(item().APIName,'?','token=',variables('accesstoken'))",
+											"value": "@concat(item().API_NAME,'?','token=',variables('Token'))",
 											"type": "Expression"
 										},
 										"connectVia": {
@@ -619,31 +612,24 @@
 											"referenceName": "DS_AzureSqlTable",
 											"type": "DatasetReference",
 											"parameters": {
-												"DWSchema": "dbo",
-												"DWTable": "RestData"
+												"DWSchema": {
+													"value": "@item().TABLE_SCHEMA",
+													"type": "Expression"
+												},
+												"DWTable": {
+													"value": "@item().TABLE_NAME",
+													"type": "Expression"
+												}
 											}
 										}
 									]
-								},
-								{
-									"name": "Set variable1",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "tablename",
-										"value": "receptacles"
-									}
 								}
 							]
 						}
 					}
 				],
 				"variables": {
-					"tablename": {
-						"type": "String"
-					},
-					"accesstoken": {
+					"Token": {
 						"type": "String",
 						"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
 					}
