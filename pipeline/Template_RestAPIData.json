@@ -68,7 +68,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"url": {
-									"value": "@concat(item().APIName,'?','token=',variables('accesstoken'))",
+									"value": "@concat(item().API_NAME,'?','token=',variables('Token'))",
 									"type": "Expression"
 								},
 								"connectVia": {
@@ -144,8 +144,11 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "tablename",
-								"value": "receptacles"
+								"variableName": "Token",
+								"value": {
+									"value": "@item().TABLE_SCHEMA",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -161,6 +164,9 @@
 				"type": "String"
 			},
 			"TableName": {
+				"type": "String"
+			},
+			"APIName": {
 				"type": "String"
 			}
 		},
