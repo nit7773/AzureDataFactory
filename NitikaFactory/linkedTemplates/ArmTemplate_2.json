@@ -580,14 +580,15 @@
 										"source": {
 											"type": "AzureSqlSource",
 											"sqlReaderQuery": {
-												"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS Sourcedata')",
+												"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS JSON_COLUMN')",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
 											"partitionOption": "None"
 										},
 										"sink": {
-											"type": "AzureSqlSink"
+											"type": "AzureSqlSink",
+											"tableOption": "autoCreate"
 										},
 										"enableStaging": false,
 										"validateDataConsistency": true,
