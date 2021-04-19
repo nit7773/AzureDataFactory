@@ -80,7 +80,8 @@
 						"referenceName": "DS_Staging_Tables",
 						"type": "DatasetReference",
 						"parameters": {
-							"DWSchema": "L_USERS"
+							"DWSchema": "staging",
+							"DWTable": "L_USERS"
 						}
 					}
 				]
