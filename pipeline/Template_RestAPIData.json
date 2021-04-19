@@ -162,9 +162,6 @@
 			"Token": {
 				"type": "String",
 				"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
-			},
-			"Run_Id": {
-				"type": "String"
 			}
 		},
 		"folder": {
