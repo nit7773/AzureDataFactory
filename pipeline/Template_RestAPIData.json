@@ -93,6 +93,15 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
+									"additionalColumns": [
+										{
+											"name": "RUN_ID",
+											"value": {
+												"value": "@pipeline().RunId",
+												"type": "Expression"
+											}
+										}
+									],
 									"sqlReaderQuery": {
 										"value": "@concat('SELECT ''',activity('Web_RestAPI').output,'''',' AS JSON_COLUMN')",
 										"type": "Expression"
@@ -146,6 +155,9 @@
 			"Token": {
 				"type": "String",
 				"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
+			},
+			"Run_Id": {
+				"type": "String"
 			}
 		},
 		"folder": {
