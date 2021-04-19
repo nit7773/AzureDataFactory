@@ -24,7 +24,8 @@
 					"dataset": {
 						"referenceName": "DS_Landing_Tables",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
