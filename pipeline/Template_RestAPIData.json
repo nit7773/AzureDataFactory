@@ -102,7 +102,7 @@
 											}
 										},
 										{
-											"name": "LAST_TIMESTAMP",
+											"name": "CREATION_TIME",
 											"value": {
 												"value": "@utcnow()",
 												"type": "Expression"
