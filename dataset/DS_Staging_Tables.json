@@ -1,0 +1,16 @@
+{
+	"name": "DS_Staging_Tables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_RestAPITable",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "@dataset().DWSchema",
+			"table": "@dataset().DWTable"
+		}
+	}
+}
