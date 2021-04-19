@@ -8,6 +8,9 @@
 		"parameters": {
 			"DWSchema": {
 				"type": "string"
+			},
+			"DWTable": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
