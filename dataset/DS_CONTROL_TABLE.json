@@ -1,0 +1,12 @@
+{
+	"name": "DS_CONTROL_TABLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_RestAPITable",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

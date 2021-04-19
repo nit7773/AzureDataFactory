@@ -5,6 +5,11 @@
 			"referenceName": "LS_RestAPITable",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"DWSchema": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],
