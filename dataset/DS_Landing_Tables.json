@@ -2,11 +2,15 @@
 	"name": "DS_Landing_Tables",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_AdventureWorksLT",
+			"referenceName": "LS_RestAPITable",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": " @dataset().DWSchema",
+			"table": "@dataset().DWTable"
+		}
 	}
 }
