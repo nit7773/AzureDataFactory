@@ -78,7 +78,10 @@
 				"outputs": [
 					{
 						"referenceName": "DS_Staging_Tables",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"DWSchema": "L_USERS"
+						}
 					}
 				]
 			}
