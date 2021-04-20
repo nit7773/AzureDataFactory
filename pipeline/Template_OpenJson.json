@@ -51,7 +51,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@{variables('Json_Query').value}",
+							"value": "@{variables('Json_Query').value[0]}",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -105,7 +105,7 @@
 				"typeProperties": {
 					"variableName": "Json_Query",
 					"value": {
-						"value": "@string(activity('Lookup1').output.value[0])",
+						"value": "@string(activity('Lookup1').output.value)",
 						"type": "Expression"
 					}
 				}
