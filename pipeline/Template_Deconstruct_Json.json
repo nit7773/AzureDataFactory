@@ -69,7 +69,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@{variables('Query')}\n",
+										"value": "@{variables('JsonQuery')}\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -114,9 +114,9 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "Query",
+								"variableName": "JsonQuery",
 								"value": {
-									"value": "@string(item().OPEN_JSON_QUERY)\n",
+									"value": "@item().OPEN_JSON_QUERY\n",
 									"type": "Expression"
 								}
 							}
@@ -126,10 +126,7 @@
 			}
 		],
 		"variables": {
-			"Json_Query": {
-				"type": "Array"
-			},
-			"Query": {
+			"JsonQuery": {
 				"type": "String"
 			}
 		},
