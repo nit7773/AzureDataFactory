@@ -117,7 +117,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "Query",
-					"value": ""
+					"value": {
+						"value": "@variables('Json_Query')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
