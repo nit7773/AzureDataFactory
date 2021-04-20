@@ -176,7 +176,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"sqlReaderQuery": "SELECT MAX(CREATION_TIME) FROM @item().TABLE_SCHEMA.@item().NAME",
+									"sqlReaderQuery": "SELECT MAX(CREATION_TIME) FROM @item().TABLE_SCHEMA.@item().TABLE_NAME ",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
