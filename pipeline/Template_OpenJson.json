@@ -33,7 +33,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -51,7 +51,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@{activity('Lookup1').output.value}",
+							"value": "@variables('Json_Query')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -89,8 +89,33 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Json_Query",
+					"value": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"Json_Query": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "RESTAPI"
 		},
