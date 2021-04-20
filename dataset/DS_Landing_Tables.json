@@ -7,10 +7,6 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": " @dataset().DWSchema",
-			"table": "@dataset().DWTable"
-		}
+		"schema": []
 	}
 }
