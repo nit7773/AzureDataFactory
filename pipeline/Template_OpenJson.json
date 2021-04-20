@@ -51,7 +51,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ''',activity('Lookup1').output.value,'''')",
+							"value": "@activity('Lookup1').output.value",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
