@@ -176,7 +176,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"sqlReaderQuery": "@{SELECT MAX(CREATION_TIME) FROM item().TABLE_SCHEMA.item().TABLE_NAME}",
+									"sqlReaderQuery": "SELECT MAX(CREATION_TIME) FROM DWSchema.DWTable",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -195,8 +195,12 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_AdventureWorksLT",
-									"type": "DatasetReference"
+									"referenceName": "DS_AzureSqlTable",
+									"type": "DatasetReference",
+									"parameters": {
+										"DWSchema": "@item().TABLE_SCHEMA",
+										"DWTable": "@item().TABLE_NAME"
+									}
 								}
 							],
 							"outputs": [
