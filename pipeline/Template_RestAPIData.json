@@ -176,7 +176,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"sqlReaderQuery": "SELECT MAX(CREATION_TIME) FROM @DWSchema.@DWTable",
+									"sqlReaderQuery": "SELECT MAX(CREATION_TIME)",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
