@@ -116,7 +116,7 @@
 							"typeProperties": {
 								"variableName": "Query",
 								"value": {
-									"value": "@string(item().value.OPEN_JSON_QUERY)\n",
+									"value": "@string(item().OPEN_JSON_QUERY)\n",
 									"type": "Expression"
 								}
 							}
