@@ -105,7 +105,7 @@
 				"typeProperties": {
 					"variableName": "Json_Query",
 					"value": {
-						"value": "@activity('Lookup1').firstRow.OPEN_JSON_QUERY",
+						"value": "@activity('Lookup1').firstRow",
 						"type": "Expression"
 					}
 				}
@@ -113,7 +113,7 @@
 		],
 		"variables": {
 			"Json_Query": {
-				"type": "Array"
+				"type": "String"
 			}
 		},
 		"folder": {
