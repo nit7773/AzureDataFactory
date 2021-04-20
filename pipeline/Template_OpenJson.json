@@ -51,7 +51,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@string(variables('Json_Query'))",
+							"value": "@concat('SELECT ''',variables('Json_Query'),'''')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
