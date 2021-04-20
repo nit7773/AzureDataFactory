@@ -17,7 +17,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT OPEN_JSON_QUERY FROM [dbo].[CONTROL_TABLE];",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -101,7 +100,11 @@
 							"outputs": [
 								{
 									"referenceName": "DS_Staging_Tables",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DWSchema": "@item().S_TABLE_SCHEMA",
+										"DWTable": "@item().S_TABLE_NAME"
+									}
 								}
 							]
 						},
@@ -131,7 +134,7 @@
 			}
 		},
 		"folder": {
-			"name": "Template"
+			"name": "RESTAPI"
 		},
 		"annotations": []
 	}
