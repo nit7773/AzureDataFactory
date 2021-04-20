@@ -21,7 +21,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DS_Landing_Tables",
+						"referenceName": "DS_CONTROL_TABLE",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
