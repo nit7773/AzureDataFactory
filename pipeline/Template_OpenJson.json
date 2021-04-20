@@ -109,19 +109,6 @@
 						"type": "Expression"
 					}
 				}
-			},
-			{
-				"name": "Set variable2",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Query",
-					"value": {
-						"value": "@string(variables('Json_Query')[0].OPEN_JSON_QUERY)",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {
