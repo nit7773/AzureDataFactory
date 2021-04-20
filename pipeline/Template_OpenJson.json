@@ -31,7 +31,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -44,7 +51,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@{variables('Json_Query')}\n",
+							"value": "@{variables('Query')}\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -96,9 +103,9 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Json_Query",
+					"variableName": "Query",
 					"value": {
-						"value": "@string(activity('Lookup1').output.value)",
+						"value": "@string(activity('Lookup1').output.value[0].OPEN_JSON_QUERY)",
 						"type": "Expression"
 					}
 				}
@@ -106,19 +113,12 @@
 			{
 				"name": "Set variable2",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "Query",
 					"value": {
-						"value": "@variables('Json_Query')",
+						"value": "@string(variables('Json_Query')[0].OPEN_JSON_QUERY)",
 						"type": "Expression"
 					}
 				}
@@ -126,7 +126,7 @@
 		],
 		"variables": {
 			"Json_Query": {
-				"type": "String"
+				"type": "Array"
 			},
 			"Query": {
 				"type": "String"
