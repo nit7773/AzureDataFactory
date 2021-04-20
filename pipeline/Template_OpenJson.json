@@ -113,7 +113,7 @@
 		],
 		"variables": {
 			"Json_Query": {
-				"type": "String"
+				"type": "Array"
 			}
 		},
 		"folder": {
