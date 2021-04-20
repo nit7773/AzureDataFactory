@@ -176,6 +176,15 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
+									"additionalColumns": [
+										{
+											"value": ""
+										}
+									],
+									"sqlReaderQuery": {
+										"value": "@concat('SELECT ',CREATION_TIME,' AS WATERMARK_VALUE')",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
