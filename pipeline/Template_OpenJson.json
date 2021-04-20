@@ -105,7 +105,7 @@
 				"typeProperties": {
 					"variableName": "Json_Query",
 					"value": {
-						"value": "@activity('Lookup1').value",
+						"value": "@string(activity('Lookup1').value)",
 						"type": "Expression"
 					}
 				}
