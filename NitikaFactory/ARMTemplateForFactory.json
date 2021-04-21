@@ -965,7 +965,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup1",
+						"name": "Lkp_APIJson",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -991,11 +991,11 @@
 						}
 					},
 					{
-						"name": "ForEach1",
+						"name": "For_AllAPIJson",
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "Lookup1",
+								"activity": "Lkp_APIJson",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1004,17 +1004,17 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lookup1').output.value",
+								"value": "@activity('Lkp_APIJson').output.value",
 								"type": "Expression"
 							},
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "Copy data1",
+									"name": "Copy_JsonDeconstruct",
 									"type": "Copy",
 									"dependsOn": [
 										{
-											"activity": "Set variable1",
+											"activity": "SV_JsonQuery",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -1089,7 +1089,7 @@
 									]
 								},
 								{
-									"name": "Set variable1",
+									"name": "SV_JsonQuery",
 									"type": "SetVariable",
 									"dependsOn": [],
 									"userProperties": [],
