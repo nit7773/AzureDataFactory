@@ -990,62 +990,6 @@
 											}
 										}
 									]
-								},
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "Copy_RestAPI",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink"
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "DS_AzureSqlTable",
-											"type": "DatasetReference",
-											"parameters": {
-												"DWSchema": "@item().TABLE_SCHEMA",
-												"DWTable": "@item().TABLE_NAME"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DS_WATERMARK_TABLE",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
 								}
 							]
 						}
@@ -1066,8 +1010,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_RestAPIMetadata')]",
-				"[concat(variables('factoryId'), '/datasets/DS_WATERMARK_TABLE')]"
+				"[concat(variables('factoryId'), '/datasets/DS_RestAPIMetadata')]"
 			]
 		},
 		{
