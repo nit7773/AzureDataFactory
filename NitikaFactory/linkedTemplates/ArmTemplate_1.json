@@ -438,6 +438,22 @@
 									"typeProperties": {
 										"source": {
 											"type": "AzureSqlSource",
+											"additionalColumns": [
+												{
+													"name": "RUN_ID",
+													"value": {
+														"value": "@pipeline().RunId",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "CREATION_TIMESTAMP",
+													"value": {
+														"value": "@utcnow()",
+														"type": "Expression"
+													}
+												}
+											],
 											"sqlReaderQuery": {
 												"value": "@{variables('JsonQuery')}\n",
 												"type": "Expression"
