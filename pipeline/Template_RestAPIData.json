@@ -169,11 +169,6 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"additionalColumns": [
-										{
-											"value": ""
-										}
-									],
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
