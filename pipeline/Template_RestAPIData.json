@@ -104,7 +104,7 @@
 										{
 											"name": "CREATION_TIME",
 											"value": {
-												"value": "@utcnow()",
+												"value": "utcnow()",
 												"type": "Expression"
 											}
 										}
@@ -157,7 +157,14 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Copy_RestAPI",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -201,26 +208,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Copy_RestAPI",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "Creation_TS",
-								"value": {
-									"value": "@activity('Copy_RestAPI').output",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
