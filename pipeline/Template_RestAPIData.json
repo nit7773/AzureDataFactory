@@ -104,7 +104,7 @@
 										{
 											"name": "CREATION_TIME",
 											"value": {
-												"value": "utcnow()",
+												"value": "@utcnow()",
 												"type": "Expression"
 											}
 										}
