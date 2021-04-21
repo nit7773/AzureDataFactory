@@ -157,14 +157,7 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Copy_RestAPI",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -217,6 +210,26 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy_RestAPI",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Creation_TS",
+								"value": {
+									"value": "@activity('Copy_RestAPI').output",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -226,6 +239,9 @@
 			"Token": {
 				"type": "String",
 				"defaultValue": "922df63e-57b6-4979-afe9-2ce52c7ced2d"
+			},
+			"Creation_TS": {
+				"type": "String"
 			}
 		},
 		"folder": {
