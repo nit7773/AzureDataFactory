@@ -115,9 +115,6 @@
 				"type": "array"
 			}
 		},
-		"folder": {
-			"name": "Template"
-		},
 		"annotations": [],
 		"lastPublishTime": "2021-03-10T20:50:51Z"
 	},
