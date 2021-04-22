@@ -1,0 +1,53 @@
+{
+	"name": "Template_StagingToDimension",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "MERGE [dbo].[DIM_USER] AS TARGET\nUSING [staging].[L_USERS] AS SOURCE \nON (TARGET.USER_PID = SOURCE.USER_PID) \nWHEN MATCHED AND TARGET.USER_FID <> SOURCE.USER_FID OR TARGET.USER_NM <> SOURCE.USER_NM \nTHEN UPDATE SET TARGET.USER_FID = SOURCE.USER_FID, TARGET.USER_NM = SOURCE.USER_NM\nWHEN NOT MATCHED BY TARGET \nTHEN INSERT (USER_PID,USER_FID,USER_NM,CREATION_TIMESTAMP,UPDATED_TIMESTAMP) VALUES (SOURCE.USER_PID,SOURCE.USER_FID,SOURCE.USER_NM,GETDATE(),null);",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_Stage_Table",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Fact_Table",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
