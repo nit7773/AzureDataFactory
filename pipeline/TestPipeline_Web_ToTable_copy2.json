@@ -15,7 +15,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "http://dummy.restapiexample.com/api/v1/employees",
+					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/refdataservice.svc/rest/countries?token=922df63e-57b6-4979-afe9-2ce52c7ced2d",
+					"connectVia": {
+						"referenceName": "IRSelfHosted",
+						"type": "IntegrationRuntimeReference"
+					},
 					"method": "GET"
 				}
 			},
