@@ -59,7 +59,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_AdventureWorksLT",
+						"referenceName": "DS_L_USERS",
 						"type": "DatasetReference"
 					}
 				]

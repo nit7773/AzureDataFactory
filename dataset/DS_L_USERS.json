@@ -1,0 +1,16 @@
+{
+	"name": "DS_L_USERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AdventureWorksLT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "staging",
+			"table": "L_USERS"
+		}
+	}
+}
