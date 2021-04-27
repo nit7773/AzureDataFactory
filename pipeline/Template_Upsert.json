@@ -87,7 +87,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_BY_RUN_ID='@{variables('Pipeline_Run_Id')}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+							"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -113,7 +113,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Pipeline_Run_Id",
+					"variableName": "Timestamp",
 					"value": {
 						"value": "@string(pipeline().RunId)",
 						"type": "Expression"
