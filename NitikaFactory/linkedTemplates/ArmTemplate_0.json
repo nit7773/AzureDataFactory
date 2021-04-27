@@ -547,43 +547,24 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_IMS')]",
+			"name": "[concat(parameters('factoryName'), '/DS_Fact_Table')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_ADLS",
+					"referenceName": "LS_AzureSqlDatabase",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"DWTableName": {
-						"type": "string"
-					},
-					"DWSchema": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
-				"type": "Parquet",
+				"type": "AzureSqlTable",
+				"schema": [],
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().DWTableName",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@dataset().DWSchema",
-							"type": "Expression"
-						},
-						"fileSystem": "ims"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
+					"schema": "dbo",
+					"table": "DIM_USER"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureSqlDatabase')]"
 			]
 		}
 	]
