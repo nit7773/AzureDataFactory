@@ -113,19 +113,16 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "Timestamp",
+					"variableName": "Pipeline_Start_Time",
 					"value": {
-						"value": "@string(pipeline().RunId)",
+						"value": "@startOfDay(utcnow())",
 						"type": "Expression"
 					}
 				}
 			}
 		],
 		"variables": {
-			"Pipeline_Run_Id": {
-				"type": "String"
-			},
-			"Timestamp": {
+			"Pipeline_Start_Time": {
 				"type": "String"
 			}
 		},
