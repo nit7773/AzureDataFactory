@@ -28,7 +28,7 @@
 							{
 								"name": "CREATION_TIMESTAMP",
 								"value": {
-									"value": "@variables('Pipeline_Start_Time')",
+									"value": "@utcnow()",
 									"type": "Expression"
 								}
 							},
