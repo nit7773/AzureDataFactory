@@ -86,7 +86,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM \nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;",
+						"sqlReaderQuery": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM \nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@RowCount as UpdatedRowcount;\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
