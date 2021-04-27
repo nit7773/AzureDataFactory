@@ -20,11 +20,17 @@
 						"additionalColumns": [
 							{
 								"name": "CREATION_TIMESTAMP",
-								"value": "$$COLUMN:"
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
 							},
 							{
 								"name": "CREATED_BY_RUN_ID",
-								"value": "$$COLUMN:"
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
 							}
 						],
 						"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
