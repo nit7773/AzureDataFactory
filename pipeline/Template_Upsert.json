@@ -5,7 +5,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -21,7 +28,7 @@
 							{
 								"name": "CREATION_TIMESTAMP",
 								"value": {
-									"value": "@utcnow()",
+									"value": "@variables('Pipeline_Start_Time')",
 									"type": "Expression"
 								}
 							},
@@ -69,7 +76,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -103,19 +110,12 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "Pipeline_Start_Time",
 					"value": {
-						"value": "@startOfDay(utcnow())",
+						"value": "@utcnow()",
 						"type": "Expression"
 					}
 				}
