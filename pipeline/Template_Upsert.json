@@ -17,12 +17,41 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"additionalColumns": [
+							{
+								"name": "CREATION_TIMESTAMP",
+								"value": "$$COLUMN:"
+							},
+							{
+								"name": "CREATED_BY_RUN_ID",
+								"value": "$$COLUMN:"
+							}
+						],
+						"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
+					{
+						"referenceName": "DS_AdventureWorksLT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
 					{
 						"referenceName": "DS_AdventureWorksLT",
 						"type": "DatasetReference"
