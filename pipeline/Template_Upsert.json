@@ -94,7 +94,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_TIMESTAMP=@{variables('Pipeline_Start_Time')},UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+							"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_TIMESTAMP='@{variables('Pipeline_Start_Time')}',UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
