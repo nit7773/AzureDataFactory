@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "staging",
-			"table": "L_USERS"
+			"table": "L_USERS_tgt"
 		}
 	}
 }
