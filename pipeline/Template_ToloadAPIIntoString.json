@@ -1,0 +1,128 @@
+{
+	"name": "Template_ToloadAPIIntoString",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchPid=24327F14-9DDA-43FD-B579-00000D4042C8",
+					"connectVia": {
+						"referenceName": "IRSelfHosted",
+						"type": "IntegrationRuntimeReference"
+					},
+					"method": "GET"
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "JsonString",
+					"value": {
+						"value": "@string(activity('Web1').output)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"additionalColumns": [
+							{
+								"name": "RUN_ID",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "CREATION_TIME",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"sqlReaderQuery": {
+							"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTable2",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_API",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"JsonString": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-03-31T19:55:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
