@@ -1,5 +1,5 @@
 {
-	"name": "Template_ToloadAPIIntoString",
+	"name": "Template_ToloadAPIIntoString_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -120,9 +120,6 @@
 			"JsonString": {
 				"type": "String"
 			}
-		},
-		"folder": {
-			"name": "Template"
 		},
 		"annotations": [],
 		"lastPublishTime": "2021-03-31T19:55:27Z"
