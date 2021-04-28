@@ -383,6 +383,45 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PipelineSampleUpsert')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "Update [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='2020-04-26';\n\nselect @@RowCount as UpdatedRowcount;\n\nDELETE FROM Mytable Where MyCond = 'D';\n\nselect @@RowCount as DeletedRowcount;",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_AdventureWorksLT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_AdventureWorksLT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Pipeline_GetRestAPIData')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1795,6 +1834,149 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Template_Upsert')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"additionalColumns": [
+									{
+										"name": "CREATION_TIMESTAMP",
+										"value": {
+											"value": "@variables('Pipeline_Start_Time')",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "CREATED_BY_RUN_ID",
+										"value": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								],
+								"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_AdventureWorksLT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_L_USERS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_TIMESTAMP='@{variables('Pipeline_Start_Time')}',UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_L_USERS",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Pipeline_Start_Time",
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"variables": {
+					"Pipeline_Start_Time": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "RESTAPI"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_AdventureWorksLT')]",
+				"[concat(variables('factoryId'), '/datasets/DS_L_USERS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TestPipeline_OpenJson_copy2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3107,6 +3289,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_L_USERS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AdventureWorksLT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "L_USERS_tgt"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AdventureWorksLT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_Landing_Tables')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3619,14 +3822,14 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PipelineSampleUpsert')]",
+			"name": "[concat(parameters('factoryName'), '/Template_ToloadAPIIntoString')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup1",
-						"type": "Lookup",
+						"name": "Web1",
+						"type": "WebActivity",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -3637,32 +3840,35 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "Update [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='2020-04-26';\n\nselect @@RowCount as UpdatedRowcount;\n\nDELETE FROM Mytable Where MyCond = 'D';\n\nselect @@RowCount as DeletedRowcount;",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchPid=24327F14-9DDA-43FD-B579-00000D4042C8",
+							"connectVia": {
+								"referenceName": "IRSelfHosted",
+								"type": "IntegrationRuntimeReference"
 							},
-							"dataset": {
-								"referenceName": "DS_AdventureWorksLT",
-								"type": "DatasetReference",
-								"parameters": {}
+							"method": "GET",
+							"headers": {}
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Web1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "JsonString",
+							"value": {
+								"value": "@string(activity('Web1').output)",
+								"type": "Expression"
 							}
 						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_AdventureWorksLT')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Template_Upsert')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
+					},
 					{
 						"name": "Copy data1",
 						"type": "Copy",
@@ -3687,29 +3893,32 @@
 								"type": "AzureSqlSource",
 								"additionalColumns": [
 									{
-										"name": "CREATION_TIMESTAMP",
-										"value": {
-											"value": "@variables('Pipeline_Start_Time')",
-											"type": "Expression"
-										}
-									},
-									{
-										"name": "CREATED_BY_RUN_ID",
+										"name": "RUN_ID",
 										"value": {
 											"value": "@pipeline().RunId",
 											"type": "Expression"
 										}
+									},
+									{
+										"name": "CREATION_TIME",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
 									}
 								],
-								"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
+								"sqlReaderQuery": {
+									"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
 							},
 							"enableStaging": false,
-							"validateDataConsistency": true,
 							"translator": {
 								"type": "TabularTranslator",
 								"typeConversion": true,
@@ -3721,87 +3930,36 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_AdventureWorksLT",
+								"referenceName": "AzureSqlTable2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_L_USERS",
+								"referenceName": "DS_API",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_TIMESTAMP='@{variables('Pipeline_Start_Time')}',UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "DS_L_USERS",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "Pipeline_Start_Time",
-							"value": {
-								"value": "@utcnow()",
-								"type": "Expression"
-							}
-						}
 					}
 				],
 				"variables": {
-					"Pipeline_Start_Time": {
+					"JsonString": {
 						"type": "String"
 					}
 				},
-				"folder": {
-					"name": "RESTAPI"
-				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2021-03-31T19:55:27Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_AdventureWorksLT')]",
-				"[concat(variables('factoryId'), '/datasets/DS_L_USERS')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/IRSelfHosted')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]",
+				"[concat(variables('factoryId'), '/datasets/DS_API')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_L_USERS')]",
+			"name": "[concat(parameters('factoryName'), '/DS_API')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -3813,8 +3971,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "staging",
-					"table": "L_USERS_tgt"
+					"schema": "dbo",
+					"table": "ACCOUNTING_DISPATCHES"
 				}
 			},
 			"dependsOn": [
