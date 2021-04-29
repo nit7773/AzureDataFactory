@@ -72,7 +72,7 @@
 				]
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lkp_Update_Staging",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -118,6 +118,42 @@
 						"value": "@utcnow()",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Lkp_Update_Watermark",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lkp_Update_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}' where TABLE_NAME='L_USERS_tgt' and SCHEMA_NAME='staging';\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_L_USERS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
