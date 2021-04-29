@@ -30,7 +30,77 @@
 						"type": "AzureSqlSink",
 						"tableOption": "autoCreate"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['CountryCd']"
+								},
+								"sink": {
+									"name": "CountryCd"
+								}
+							},
+							{
+								"source": {
+									"path": "['CountryNm']"
+								},
+								"sink": {
+									"name": "CountryNm"
+								}
+							},
+							{
+								"source": {
+									"path": "['EuEntranceDt']"
+								},
+								"sink": {
+									"name": "EuEntranceDt"
+								}
+							},
+							{
+								"source": {
+									"path": "['Latitude']"
+								},
+								"sink": {
+									"name": "Latitude"
+								}
+							},
+							{
+								"source": {
+									"path": "['Longitude']"
+								},
+								"sink": {
+									"name": "Longitude"
+								}
+							},
+							{
+								"source": {
+									"path": "['Translations'][0]['LanguageCD']"
+								},
+								"sink": {
+									"name": "LanguageCD"
+								}
+							},
+							{
+								"source": {
+									"path": "['Translations'][0]['Translation']"
+								},
+								"sink": {
+									"name": "Translation"
+								}
+							},
+							{
+								"source": {
+									"path": "['ValidInd']"
+								},
+								"sink": {
+									"name": "ValidInd"
+								}
+							}
+						],
+						"collectionReference": "$['Countries']"
+					}
 				},
 				"inputs": [
 					{
