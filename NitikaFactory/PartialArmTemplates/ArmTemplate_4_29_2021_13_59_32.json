@@ -1,0 +1,601 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "NitikaFactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Template_StagingToDimension')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "MERGE [dbo].[DIM_USER] AS TARGET\nUSING [staging].[L_USERS] AS SOURCE \nON (TARGET.USER_PID = SOURCE.USER_PID) \nWHEN MATCHED AND TARGET.USER_FID <> SOURCE.USER_FID OR TARGET.USER_NM <> SOURCE.USER_NM \nTHEN UPDATE SET TARGET.USER_FID = SOURCE.USER_FID, TARGET.USER_NM = SOURCE.USER_NM\nWHEN NOT MATCHED BY TARGET \nTHEN INSERT (USER_PID,USER_FID,USER_NM,CREATION_TIMESTAMP,UPDATED_TIMESTAMP) VALUES (SOURCE.USER_PID,SOURCE.USER_FID,SOURCE.USER_NM,GETDATE(),null);",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_Stage_Table",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_Fact_Table",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "Template"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Template_ToloadAPIIntoString')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchPid=24327F14-9DDA-43FD-B579-00000D4042C8",
+							"connectVia": {
+								"referenceName": "IRSelfHosted",
+								"type": "IntegrationRuntimeReference"
+							},
+							"method": "GET"
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Web1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "JsonString",
+							"value": {
+								"value": "@string(activity('Web1').output)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"additionalColumns": [
+									{
+										"name": "RUN_ID",
+										"value": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "CREATION_TIME",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								],
+								"sqlReaderQuery": {
+									"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable2",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_API",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"variables": {
+					"JsonString": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Template"
+				},
+				"annotations": [],
+				"lastPublishTime": "2021-03-31T19:55:27Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_API')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Template_Upsert')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"additionalColumns": [
+									{
+										"name": "CREATION_TIMESTAMP",
+										"value": {
+											"value": "@variables('Pipeline_Start_Time')",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "CREATED_BY_RUN_ID",
+										"value": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								],
+								"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_AdventureWorksLT",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_L_USERS",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "Lkp_Update_Staging",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "UPDATE staging.L_USERS_tgt set USER_FID=s.USER_FID, USER_NM=s.USER_NM, UPDATED_TIMESTAMP='@{variables('Pipeline_Start_Time')}',UPDATED_BY_RUN_ID='@{pipeline().RunId}'\nFROM staging.L_USERS s INNER JOIN staging.L_USERS_tgt d\n     ON s.USER_PID=d.USER_PID\n    WHERE s.USER_FID!=d.USER_FID\n    OR s.USER_NM!=d.USER_NM;\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_L_USERS",
+								"type": "DatasetReference"
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Pipeline_Start_Time",
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Lkp_Update_Watermark",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lkp_Update_Staging",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}' where TABLE_NAME='L_USERS_tgt' and SCHEMA_NAME='staging';\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_L_USERS",
+								"type": "DatasetReference"
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"variables": {
+					"Pipeline_Start_Time": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "RESTAPI"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Test_ToloadAPIFromFile')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['CountryCd']"
+										},
+										"sink": {
+											"name": "CountryCd"
+										}
+									},
+									{
+										"source": {
+											"path": "[['CountryNm']"
+										},
+										"sink": {
+											"name": "CountryNm"
+										}
+									},
+									{
+										"source": {
+											"path": "[['EuEntranceDt']"
+										},
+										"sink": {
+											"name": "EuEntranceDt"
+										}
+									},
+									{
+										"source": {
+											"path": "[['Latitude']"
+										},
+										"sink": {
+											"name": "Latitude"
+										}
+									},
+									{
+										"source": {
+											"path": "[['Longitude']"
+										},
+										"sink": {
+											"name": "Longitude"
+										}
+									},
+									{
+										"source": {
+											"path": "[['Translations'][0]['LanguageCD']"
+										},
+										"sink": {
+											"name": "LanguageCD"
+										}
+									},
+									{
+										"source": {
+											"path": "[['Translations'][0]['Translation']"
+										},
+										"sink": {
+											"name": "Translation"
+										}
+									},
+									{
+										"source": {
+											"path": "[['ValidInd']"
+										},
+										"sink": {
+											"name": "ValidInd"
+										}
+									}
+								],
+								"collectionReference": "$['Countries']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json2",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_API",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"variables": {
+					"JsonString": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2021-03-31T19:55:27Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Json2')]",
+				"[concat(variables('factoryId'), '/datasets/DS_API')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_API')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AdventureWorksLT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "test"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "FileRestAPI",
+						"fileSystem": "restapidata"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Countries": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"CountryCd": {
+										"type": "string"
+									},
+									"CountryNm": {
+										"type": "string"
+									},
+									"EuEntranceDt": {
+										"type": "null"
+									},
+									"Latitude": {
+										"type": "integer"
+									},
+									"Longitude": {
+										"type": "integer"
+									},
+									"Translations": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"LanguageCD": {
+													"type": "string"
+												},
+												"Translation": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"ValidInd": {
+										"type": "integer"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

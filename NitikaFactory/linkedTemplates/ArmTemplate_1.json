@@ -21,44 +21,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_IMS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"DWTableName": {
-						"type": "string"
-					},
-					"DWSchema": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().DWTableName",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@dataset().DWSchema",
-							"type": "Expression"
-						},
-						"fileSystem": "ims"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_Landing_Tables')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -258,6 +220,72 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Json2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "FileRestAPI",
+						"fileSystem": "restapidata"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Countries": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"CountryCd": {
+										"type": "string"
+									},
+									"CountryNm": {
+										"type": "string"
+									},
+									"EuEntranceDt": {
+										"type": "null"
+									},
+									"Latitude": {
+										"type": "integer"
+									},
+									"Longitude": {
+										"type": "integer"
+									},
+									"Translations": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"LanguageCD": {
+													"type": "string"
+												},
+												"Translation": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"ValidInd": {
+										"type": "integer"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -308,116 +336,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EP_IterateAndCopySqlTables')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "For_IterateSQLTables",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.tableList",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "COPY_AzureSql_DataLake",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderQuery": {
-												"value": "SELECT * FROM [@{item().TABLE_SCHEMA}].[@{item().TABLE_NAME}]\n",
-												"type": "Expression"
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "ParquetSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "ParquetWriteSettings"
-											}
-										},
-										"enableStaging": false,
-										"validateDataConsistency": true,
-										"logSettings": {
-											"enableCopyActivityLog": true,
-											"copyActivityLogSettings": {
-												"logLevel": "Info",
-												"enableReliableLogging": false
-											},
-											"logLocationSettings": {
-												"linkedServiceName": {
-													"referenceName": "LS_Logging",
-													"type": "LinkedServiceReference"
-												},
-												"path": "logging"
-											}
-										},
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "DS_AzureSqlTable",
-											"type": "DatasetReference",
-											"parameters": {
-												"DWSchema": "dbo",
-												"DWTable": "abc"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DS_Parquet",
-											"type": "DatasetReference",
-											"parameters": {
-												"DWFolder": "@item().TABLE_NAME",
-												"DWFile": "@item().TABLE_SCHEMA"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"parameters": {
-					"tableList": {
-						"type": "array"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2021-03-16T16:40:29Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Parquet')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Template_Deconstruct_Json')]",
@@ -766,6 +684,9 @@
 						]
 					}
 				],
+				"folder": {
+					"name": "Template"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1374,6 +1295,27 @@
 				"lastPublishTime": "2021-03-31T19:55:27Z"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_API')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AdventureWorksLT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "test"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AdventureWorksLT')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_AdventureWorksLT')]",
