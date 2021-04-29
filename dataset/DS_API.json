@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "ACCOUNTING_DISPATCHES"
+			"table": "COUNTRIES"
 		}
 	}
 }
