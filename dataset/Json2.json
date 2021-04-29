@@ -1,0 +1,63 @@
+{
+	"name": "Json2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "FileRestAPI",
+				"fileSystem": "restapidata"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Countries": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"CountryCd": {
+								"type": "string"
+							},
+							"CountryNm": {
+								"type": "string"
+							},
+							"EuEntranceDt": {
+								"type": "null"
+							},
+							"Latitude": {
+								"type": "integer"
+							},
+							"Longitude": {
+								"type": "integer"
+							},
+							"Translations": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"LanguageCD": {
+											"type": "string"
+										},
+										"Translation": {
+											"type": "string"
+										}
+									}
+								}
+							},
+							"ValidInd": {
+								"type": "integer"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
