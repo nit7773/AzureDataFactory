@@ -143,14 +143,14 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+							"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='2020-01-01' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT @@ROWCOUNT as UpdatedRowcount;",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DS_L_USERS",
+						"referenceName": "DS_WATERMARK_TABLE",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
