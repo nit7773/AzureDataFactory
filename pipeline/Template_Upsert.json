@@ -143,7 +143,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='formatDateTime(@{variables('Pipeline_Start_Time')},'yyyy-mm-dd HH:mm:ss')' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT ROWCOUNT as UpdatedRowcount;",
+							"value": "@UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{formatDateTime(variables('Pipeline_Start_Time'),'yyyy-mm-dd HH:mm:ss')}' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT ROWCOUNT as UpdatedRowcount;",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
