@@ -143,7 +143,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT @@ROWCOUNT as RowCountWatermark;",
+							"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',UPDATED_BY_RUN_ID='@{pipeline().RunId}' where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
