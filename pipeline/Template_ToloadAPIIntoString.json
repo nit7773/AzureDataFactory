@@ -38,7 +38,7 @@
 				"typeProperties": {
 					"variableName": "JsonString",
 					"value": {
-						"value": "@replace(string(activity('Web1').output),'''','''\\''')",
+						"value": "@replace(string(activity('Web1').output),'''','\\''')",
 						"type": "Expression"
 					}
 				}
