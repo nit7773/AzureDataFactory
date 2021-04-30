@@ -157,6 +157,20 @@
 				}
 			}
 		],
+		"parameters": {
+			"SRC_TABLE": {
+				"type": "string"
+			},
+			"SRC_SCHEMA": {
+				"type": "string"
+			},
+			"TGT_TABLE": {
+				"type": "string"
+			},
+			"TGT_SCHEMA": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"Pipeline_Start_Time": {
 				"type": "String"
