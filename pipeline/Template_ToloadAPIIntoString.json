@@ -82,7 +82,7 @@
 							}
 						],
 						"sqlReaderQuery": {
-							"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+							"value": "@concat('SELECT ''',variables('JsonString').value,'''',' AS JSON_COLUMN')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
