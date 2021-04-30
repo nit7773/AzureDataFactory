@@ -165,10 +165,12 @@
 				"type": "string"
 			},
 			"TGT_TABLE": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "L_USERS_tgt"
 			},
 			"TGT_SCHEMA": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "staging"
 			}
 		},
 		"variables": {
