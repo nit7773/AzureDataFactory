@@ -1069,7 +1069,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchPid=24327F14-9DDA-43FD-B579-00000D4042C8",
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchDateFrom=2019-03-20&DispatchDateTo=2019-03-21",
 							"connectVia": {
 								"referenceName": "IRSelfHosted",
 								"type": "IntegrationRuntimeReference"
@@ -1336,14 +1336,14 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}' where TABLE_NAME='L_USERS_tgt' and SCHEMA_NAME='staging';\n\nSELECT @@ROWCOUNT as UpdatedRowcount;\n",
+									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE=@{formatDateTime(utcnow(),'yyyy-mm-dd HH:mm:ss')} where TABLE_NAME='L_USERS_tgt' and TABLE_SCHEMA='staging';\n\nSELECT ROWCOUNT as UpdatedRowcountWatermark;",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "DS_L_USERS",
+								"referenceName": "DS_WATERMARK_TABLE",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -1362,7 +1362,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_L_USERS')]"
+				"[concat(variables('factoryId'), '/datasets/DS_L_USERS')]",
+				"[concat(variables('factoryId'), '/datasets/DS_WATERMARK_TABLE')]"
 			]
 		},
 		{
