@@ -136,6 +136,42 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Lkp_Update_Watermark",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Copy_JsonDeconstruct",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{pipeline().parameters.TGT_TABLE}' and TABLE_SCHEMA='@{pipeline().parameters.TGT_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DS_WATERMARK_TABLE",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
 						}
 					]
 				}
