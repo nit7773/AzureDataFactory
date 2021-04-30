@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchPid=24327F14-9DDA-43FD-B579-00000D4042C8",
+					"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchDateFrom=2019-03-20&DispatchDateTo=2019-03-21",
 					"connectVia": {
 						"referenceName": "IRSelfHosted",
 						"type": "IntegrationRuntimeReference"
