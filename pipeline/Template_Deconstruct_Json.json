@@ -51,7 +51,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "SV_JsonQuery",
+									"activity": "SV_Pipeline_Start_Time",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -79,7 +79,7 @@
 										{
 											"name": "CREATION_TIMESTAMP",
 											"value": {
-												"value": "@utcnow()",
+												"value": "@variables('Pipeline_Start_Time')",
 												"type": "Expression"
 											}
 										}
@@ -160,7 +160,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{item()}' and TABLE_SCHEMA='@{pipeline().parameters.TGT_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+										"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{item().S_TABLE_NAME}' and TABLE_SCHEMA='@{item().S_TABLE_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -172,6 +172,26 @@
 								},
 								"firstRowOnly": false
 							}
+						},
+						{
+							"name": "SV_Pipeline_Start_Time",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "SV_JsonQuery",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Pipeline_Start_Time",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -179,6 +199,9 @@
 		],
 		"variables": {
 			"JsonQuery": {
+				"type": "String"
+			},
+			"Pipeline_Start_Time": {
 				"type": "String"
 			}
 		},
