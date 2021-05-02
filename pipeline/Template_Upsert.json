@@ -184,7 +184,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT WATERMARK_VALUE as OLD_WATERMARK where TABLE_NAME='L_USERS' and TABLE_SCHEMA='staging'",
+						"sqlReaderQuery": "SELECT WATERMARK_VALUE as OLD_WATERMARK FROM [dbo].[WATERMARK_TABLE] where TABLE_NAME='L_USERS' and TABLE_SCHEMA='staging'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -209,7 +209,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT MAX(CREATION_TIMESTAMP) as NEW_WATERMARKFROM [staging].[L_USERS]",
+						"sqlReaderQuery": "SELECT MAX(CREATION_TIMESTAMP) as NEW_WATERMARK FROM [staging].[L_USERS]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
