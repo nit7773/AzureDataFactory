@@ -40,7 +40,10 @@
 								}
 							}
 						],
-						"sqlReaderQuery": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE d.USER_PID IS NULL",
+						"sqlReaderQuery": {
+							"value": "SELECT s.USER_PID,s.USER_FID,s.USER_NM FROM staging.L_USERS s\nLEFT JOIN staging.L_USERS_tgt d ON s.USER_PID=d.USER_PID\nWHERE s.CREATION_TIMESTAMP > 'activity('Lkp_OldWaterMarkValue').output.firstRow.OLD_WATERMARK'  and s.CREATION_TIMESTAMP <= 'activity('Lkp_OldWaterMarkValue').output.firstRow.NEW_WATERMARK'  and d.USER_PID IS NULL",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -191,7 +194,8 @@
 					"dataset": {
 						"referenceName": "DS_WATERMARK_TABLE",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": true
 				}
 			},
 			{
