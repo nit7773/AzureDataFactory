@@ -13,25 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_AzureSqlReadJson')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_AdventureWorksLT",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "RestData"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_ExtractedJson')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -707,6 +688,227 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Template_Deconstruct_Json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lkp_APIJson",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_CONTROL_TABLE",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "For_AllAPIJson",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lkp_APIJson",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lkp_APIJson').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy_JsonDeconstruct",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "SV_Pipeline_Start_Time",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"additionalColumns": [
+												{
+													"name": "RUN_ID",
+													"value": {
+														"value": "@pipeline().RunId",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "CREATION_TIMESTAMP",
+													"value": {
+														"value": "@variables('Pipeline_Start_Time')",
+														"type": "Expression"
+													}
+												}
+											],
+											"sqlReaderQuery": {
+												"value": "@{variables('JsonQuery')}\n",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"validateDataConsistency": true,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_CONTROL_TABLE",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DS_Staging_Tables",
+											"type": "DatasetReference",
+											"parameters": {
+												"DWSchema": "@item().S_TABLE_SCHEMA",
+												"DWTable": "@item().S_TABLE_NAME"
+											}
+										}
+									]
+								},
+								{
+									"name": "SV_JsonQuery",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "JsonQuery",
+										"value": {
+											"value": "@item().OPEN_JSON_QUERY\n",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Lkp_Update_Watermark",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "Copy_JsonDeconstruct",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{item().S_TABLE_NAME}' and TABLE_SCHEMA='@{item().S_TABLE_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "DS_WATERMARK_TABLE",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": false
+									}
+								},
+								{
+									"name": "SV_Pipeline_Start_Time",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "SV_JsonQuery",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Pipeline_Start_Time",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"variables": {
+					"JsonQuery": {
+						"type": "String"
+					},
+					"Pipeline_Start_Time": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "RESTAPI"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_WATERMARK_TABLE')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Template_RestAPIData')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1069,7 +1271,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchDateFrom=2019-03-20&DispatchDateTo=2019-03-21",
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/ipsapiservice/refdataservice.svc/rest/countries?token=922df63e-57b6-4979-afe9-2ce52c7ced2d",
 							"connectVia": {
 								"referenceName": "IRSelfHosted",
 								"type": "IntegrationRuntimeReference"
@@ -1093,7 +1295,7 @@
 						"typeProperties": {
 							"variableName": "JsonString",
 							"value": {
-								"value": "@string(activity('Web1').output)",
+								"value": "@replace(string(activity('Web1').output),'''','''')",
 								"type": "Expression"
 							}
 						}
@@ -1137,7 +1339,7 @@
 									}
 								],
 								"sqlReaderQuery": {
-									"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+									"value": "@concat('SELECT ''',variables('JsonString'),'''',' AS JSON_COLUMN')",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -1336,7 +1538,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@pipeline().parameters.TGT_TABLE' and TABLE_SCHEMA='pipeline().parameters.TGT_SCHEMA';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{pipeline().parameters.TGT_TABLE}' and TABLE_SCHEMA='@{pipeline().parameters.TGT_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -1503,7 +1705,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_AzureSqlReadJson')]",
 				"[concat(variables('factoryId'), '/datasets/DS_ExtractedJson')]"
 			]
 		},
@@ -1628,7 +1829,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_AzureSqlReadJson')]",
 				"[concat(variables('factoryId'), '/datasets/DS_ExtractedJson')]"
 			]
 		},

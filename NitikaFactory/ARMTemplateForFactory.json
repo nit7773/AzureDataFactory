@@ -696,7 +696,7 @@
 									"type": "Copy",
 									"dependsOn": [
 										{
-											"activity": "SV_JsonQuery",
+											"activity": "SV_Pipeline_Start_Time",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -724,7 +724,7 @@
 												{
 													"name": "CREATION_TIMESTAMP",
 													"value": {
-														"value": "@utcnow()",
+														"value": "@variables('Pipeline_Start_Time')",
 														"type": "Expression"
 													}
 												}
@@ -782,6 +782,63 @@
 											"type": "Expression"
 										}
 									}
+								},
+								{
+									"name": "Lkp_Update_Watermark",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "Copy_JsonDeconstruct",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{item().S_TABLE_NAME}' and TABLE_SCHEMA='@{item().S_TABLE_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "DS_WATERMARK_TABLE",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": false
+									}
+								},
+								{
+									"name": "SV_Pipeline_Start_Time",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "SV_JsonQuery",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Pipeline_Start_Time",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
@@ -789,6 +846,9 @@
 				],
 				"variables": {
 					"JsonQuery": {
+						"type": "String"
+					},
+					"Pipeline_Start_Time": {
 						"type": "String"
 					}
 				},
@@ -799,7 +859,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_CONTROL_TABLE')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Staging_Tables')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Staging_Tables')]",
+				"[concat(variables('factoryId'), '/datasets/DS_WATERMARK_TABLE')]"
 			]
 		},
 		{
@@ -1368,7 +1429,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://ipsapi.dit.impac.azcpggpc.ca/IPSAPIService/AccountingDispatchService.svc/rest/accountingdispatches?token=922df63e-57b6-4979-afe9-2ce52c7ced2d&DispatchDateFrom=2019-03-20&DispatchDateTo=2019-03-21",
+							"url": "https://ipsapi.dit.impac.azcpggpc.ca/ipsapiservice/refdataservice.svc/rest/countries?token=922df63e-57b6-4979-afe9-2ce52c7ced2d",
 							"connectVia": {
 								"referenceName": "IRSelfHosted",
 								"type": "IntegrationRuntimeReference"
@@ -1392,7 +1453,7 @@
 						"typeProperties": {
 							"variableName": "JsonString",
 							"value": {
-								"value": "@string(activity('Web1').output)",
+								"value": "@replace(string(activity('Web1').output),'''','''')",
 								"type": "Expression"
 							}
 						}
@@ -1436,7 +1497,7 @@
 									}
 								],
 								"sqlReaderQuery": {
-									"value": "@concat('SELECT ''',activity('Web1').output,'''',' AS JSON_COLUMN')",
+									"value": "@concat('SELECT ''',variables('JsonString'),'''',' AS JSON_COLUMN')",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -1639,7 +1700,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@pipeline().parameters.TGT_TABLE' and TABLE_SCHEMA='pipeline().parameters.TGT_SCHEMA';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
+									"value": "UPDATE [dbo].[WATERMARK_TABLE] set WATERMARK_VALUE='@{variables('Pipeline_Start_Time')}',RUN_ID='@{pipeline().RunId}' where TABLE_NAME='@{pipeline().parameters.TGT_TABLE}' and TABLE_SCHEMA='@{pipeline().parameters.TGT_SCHEMA}';\n\nSELECT @@ROWCOUNT as WatermarkRowount;",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -2845,7 +2906,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "test"
+					"table": "COUNTRIES"
 				}
 			},
 			"dependsOn": [
