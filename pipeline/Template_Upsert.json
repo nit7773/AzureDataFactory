@@ -226,10 +226,12 @@
 		],
 		"parameters": {
 			"SRC_TABLE": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "L_USERS"
 			},
 			"SRC_SCHEMA": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "staging"
 			},
 			"TGT_TABLE": {
 				"type": "string",
